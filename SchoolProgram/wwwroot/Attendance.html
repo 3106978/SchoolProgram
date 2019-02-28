@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Attendance</title>
+    <script src="jquery-3.3.1.js"></script>
+    <script src="Script.js"></script>
+    <link href="index.css" rel="stylesheet" />
+
+</head>
+<body onload="renderClassesNameSelector()">
+
+    <div class="divSelectContainer">
+        <div class="divSelect">
+            <label>Select a Class:  </label>
+            <select id="selectClass">
+                <option selected hidden>Choose here</option>
+            </select>
+            
+        </div>
+        <div class="divSelect">
+            <label>Select a date:  </label><input type="date" id="calendar" min="2019-01-01" />
+        </div>
+        <button id="btnShowAttendanceList" onclick="renderLessonsListToSelection()">Show</button>
+       
+        
+    </div>
+    <div class="divSpanResult"><div class="spanResult"></div> </div>
+    <div class="divLessonsContainer"></div>
+    <div class="divAttendanceContainer divAttendanceTable">
+        <div class="divTableContainer"></div>
+        <div class="divText"></div>
+        <div class="divButtons"></div>
+
+    </div>
+   
+
+
+</body>
+</html>

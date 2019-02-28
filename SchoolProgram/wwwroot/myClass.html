@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My Class</title>
+    <script src="jquery-3.3.1.js"></script>
+    <script src="Script.js"></script>
+    <link href="index.css" rel="stylesheet" />
+</head>
+
+<body onload="getListOfPupilsFromMyClass()">
+
+    <div class="divSpanResult">  <div class="spanResult"></div> </div>
+    <div class="divAttendanceContainer">
+        <div class="circle"> <h1 id="className" align="center"></h1></div>
+        <div class="divTableContainer">   </div>
+        <div class="divButtons"></div>
+    </div>
+
+    <div id="prompt-form-container">
+        <form id="prompt-form">
+            <div id="prompt-message"></div>
+            <textarea name="text"></textarea>
+            <input type="submit" value="Send" name="send"/>
+            <input type="button" name="cancel" value="Cancel"/>
+        </form>
+    </div>
+</body>
+</html>

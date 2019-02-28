@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MySchoolWeb</title>
+    <script src="jquery-3.3.1.js"></script>
+    <script src="Script.js"></script>
+    <link href="index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="divLogin entryDiv">
+        <h2 align="center" style="margin-left:0">Login</h2>
+        Login: <input type="text" id="txtLogin" autofocus placeholder="Enter a login" required /><br /><br />
+        Password:<input type="password" id="txtPassword" placeholder="Enter a password" required onkeypress="enterkeyPressed(event, 'btnLogin')" /><br /><br />
+        <button id="btnLogin" onclick="btnLogin()" style="margin-left:41%">Login</button><br /><br />
+        <span id="spanLoginResult"></span>
+    </div>
+
+    <div class="signup entryDiv" id="divSignup">
+        <h2>Please, fill all fields to continue </h2><br />
+        <input type="text" id="txtEmail" required placeholder="enter your email" /><br /><br />
+        <input type="text" id="txtNewPassword" required placeholder="enter new password" onkeypress="enterkeyPressed(event, 'btnSignup')" /><br />
+        <p style="font-size:small; color:grey; margin:auto;">The password length must be from 6 to 8 and must contains numbers and letters</p>
+        <button id="btnSignUp" onclick="signUp()">Submit</button>
+        <span id="spanLoginResult"></span>
+
+
+    </div>
+    
+    <div id="userPage">
+        <h1 id="h1Hello"></h1>
+
+    </div>
+
+    <div class="page" id="divTeacherPage">
+        <div class="box">
+            <div class="divButton" id="divAttendance">
+
+                <a href="Attendance.html" target="_blank" class="link">Attendance</a>
+            </div>
+            <div class="divButton" id="divPupilsList">
+                
+                <a href="myClass.html" target="_blank" class="link">My Class</a>
+            </div>
+            <div class="divButton" id="divSchedule">
+               
+                <a href="schedule.html" target="_blank" class="link">Schedule</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
