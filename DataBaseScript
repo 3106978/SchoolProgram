@@ -1,0 +1,731 @@
+USE [master]
+GO
+/****** Object:  Database [SchoolDB]    Script Date: 3/3/2019 8:30:55 PM ******/
+CREATE DATABASE [SchoolDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'SchoolDB', FILENAME = N'D:\SQLExpress\MSSQL14.SQLEXPRESS\MSSQL\DATA\SchoolDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'SchoolDB_log', FILENAME = N'D:\SQLExpress\MSSQL14.SQLEXPRESS\MSSQL\DATA\SchoolDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [SchoolDB] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [SchoolDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [SchoolDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [SchoolDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [SchoolDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [SchoolDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [SchoolDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [SchoolDB] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [SchoolDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [SchoolDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [SchoolDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [SchoolDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [SchoolDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [SchoolDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [SchoolDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [SchoolDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [SchoolDB] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [SchoolDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [SchoolDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [SchoolDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [SchoolDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [SchoolDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [SchoolDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [SchoolDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [SchoolDB] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [SchoolDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [SchoolDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [SchoolDB] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [SchoolDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [SchoolDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [SchoolDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [SchoolDB] SET QUERY_STORE = OFF
+GO
+USE [SchoolDB]
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = ON;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
+GO
+USE [SchoolDB]
+GO
+/****** Object:  Table [dbo].[Attendance]    Script Date: 3/3/2019 8:30:55 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Attendance](
+	[Date] [date] NULL,
+	[LessonID] [int] NULL,
+	[PupilID] [int] NOT NULL,
+	[Presence] [bit] NULL,
+	[TeacherID] [int] NULL,
+	[ClassID] [int] NULL,
+	[NumberOfLesson] [int] NULL,
+	[Comment] [varchar](500) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Categories]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categories](
+	[CategoryID] [int] NOT NULL,
+	[CategoryName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Classes]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Classes](
+	[ClassID] [int] IDENTITY(1,1) NOT NULL,
+	[TeacherID] [int] NOT NULL,
+	[ClassName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Classes] PRIMARY KEY CLUSTERED 
+(
+	[ClassID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Lessons]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Lessons](
+	[LessonID] [int] IDENTITY(1,1) NOT NULL,
+	[LessonName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Lessons] PRIMARY KEY CLUSTERED 
+(
+	[LessonID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LogsAndPass]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LogsAndPass](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[Login] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+	[IsATeacher] [bit] NOT NULL,
+	[IsNewUser] [bit] NOT NULL,
+	[IsAdmin] [bit] NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Messages]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Messages](
+	[Date] [datetime] NOT NULL,
+	[TeacherID] [int] NOT NULL,
+	[PupilID] [int] NOT NULL,
+	[UserID] [int] NOT NULL,
+	[Message] [nvarchar](max) NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Pupils]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Pupils](
+	[PupilID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Surname] [varchar](50) NOT NULL,
+	[DateOfBirth] [date] NOT NULL,
+	[PhoneNumber] [varchar](50) NOT NULL,
+	[Address] [varchar](50) NOT NULL,
+	[ClassID] [int] NOT NULL,
+	[TeacherID] [int] NOT NULL,
+	[UserID] [int] NOT NULL,
+ CONSTRAINT [PK_Pupils] PRIMARY KEY CLUSTERED 
+(
+	[PupilID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Schedule]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Schedule](
+	[Date] [date] NOT NULL,
+	[Number of Lesson] [int] NOT NULL,
+	[LessonID] [int] NULL,
+	[ClassID] [int] NOT NULL,
+	[TeacherID] [int] NOT NULL,
+	[TeachersComment] [varchar](max) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Teachers]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Teachers](
+	[TeacherID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Surname] [varchar](50) NOT NULL,
+	[PhoneNumber] [varchar](50) NOT NULL,
+	[ClassID] [int] NULL,
+	[CategoryID] [int] NOT NULL,
+	[UserID] [int] NOT NULL,
+ CONSTRAINT [PK_Teachers] PRIMARY KEY CLUSTERED 
+(
+	[TeacherID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 3/3/2019 8:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[LastLogin] [datetime] NOT NULL,
+ CONSTRAINT [PK_Users_1] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2012-02-05' AS Date), 6, 1, 1, 7, 1, 1, N'good')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 6, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 8, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 22, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 23, 0, 6, 2, 5, N'absent')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 25, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 26, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 27, 0, 6, 2, 5, N'absent')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 28, 1, 6, 2, 5, N'')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 29, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 30, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 31, 1, 6, 2, 5, N'good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 32, 1, 6, 2, 5, N'')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 33, 1, 6, 2, 5, N'')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (1, N'Hebrew')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (2, N'Mathematics')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (3, N'Geografy')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (4, N'Physics')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (5, N'Sport')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (6, N'Tanah')
+GO
+INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (7, N'English')
+GO
+SET IDENTITY_INSERT [dbo].[Classes] ON 
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (1, 6, N'A1')
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (2, 8, N'A2')
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (3, 7, N'B1')
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (4, 10, N'B2')
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (5, 11, N'C1')
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (6, 12, N'C2')
+GO
+INSERT [dbo].[Classes] ([ClassID], [TeacherID], [ClassName]) VALUES (7, 13, N'C3')
+GO
+SET IDENTITY_INSERT [dbo].[Classes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Lessons] ON 
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (6, N'Hebrew')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (7, N'Mathematics')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (8, N'Sport')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (9, N'Music')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (10, N'Science')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (11, N'Physics')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (12, N'Tanah')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (13, N'English')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (14, N'Drawing')
+GO
+INSERT [dbo].[Lessons] ([LessonID], [LessonName]) VALUES (15, N'Geografy')
+GO
+SET IDENTITY_INSERT [dbo].[Lessons] OFF
+GO
+SET IDENTITY_INSERT [dbo].[LogsAndPass] ON 
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (1, N'BillyBob', N'134sdf', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (2, N'Chernika', N'134sdf', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (4, N'Charly', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (5, N'Bubu', N'123dfgg', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (6, N'Lili', N'123asd', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (7, N'Robby', N'1235fgh', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (8, N'Galy', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (9, N'Rikky', N'123asd', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (10, N'Rami', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (11, N'Shalevet', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (12, N'Ilana', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (13, N'Daniel', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (14, N'Ortal', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (16, N'Tanya', N'123asd', 0, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (17, N'Sagi', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (18, N'Bobbi', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (21, N'Mikky', N'123asd', 1, 0, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (22, N'Tony', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (23, N'Miranda', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (24, N'Kelvin', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (25, N'Juliya', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (26, N'Entony', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (27, N'Fiona', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (28, N'Melissa', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (29, N'Bruck', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (30, N'cristen', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (32, N'carl', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (33, N'rayan', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (34, N'jamse', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (35, N'mery', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (36, N'tiler', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (37, N'gregory', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (38, N'luke', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (39, N'lydia', N'123asd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (40, N'vincente', N'123asd', 0, 1, 0)
+GO
+SET IDENTITY_INSERT [dbo].[LogsAndPass] OFF
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:40:17.070' AS DateTime), 6, 9, 6, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:44:48.803' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:46:00.923' AS DateTime), 6, 1, 1, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:48:03.997' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:49:42.027' AS DateTime), 6, 9, 6, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T21:07:39.927' AS DateTime), 6, 1, 1, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T21:12:40.760' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T22:33:24.547' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T22:33:43.617' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T09:33:24.227' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T10:13:32.677' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T13:49:57.287' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T20:27:51.897' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T20:40:16.570' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-03T16:44:53.867' AS DateTime), 6, 9, 6, N'Greatly hearted has who believe. Drift allow green son walls years for blush. Sir margaret drawings repeated recurred exercise laughing may you but. Do repeated whatever to welcomed absolute no. Fat surprise although outlived and informed shy dissuade property. Musical by me through he drawing savings an. No we stand avoid decay heard mr. Common so wicket appear to sudden worthy on. Shade of offer ye whole stood hoped. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T07:45:19.907' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T09:20:00.780' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T15:32:25.937' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T15:34:14.787' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T15:35:50.057' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-03T14:55:02.817' AS DateTime), 6, 1, 1, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+GO
+SET IDENTITY_INSERT [dbo].[Pupils] ON 
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (1, N'Grant', N'Pogosin', CAST(N'2011-12-11' AS Date), N'059-4875263', N'Petah Tikwa, Hertsel str., 11/1', 1, 6, 1)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (2, N'Karin', N'Flash', CAST(N'2012-05-25' AS Date), N'053-4582794', N'Petah Tikwa, Walfson str., 4/16', 1, 6, 2)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (4, N'Elis', N'Apshtein', CAST(N'2012-10-20' AS Date), N'052-4578215', N'PetahTikwa, Socolov str., 45/8', 1, 6, 5)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (6, N'Topaz', N'Katron', CAST(N'2012-02-21' AS Date), N'050-4586789', N'Petah Tikwa, Walfson str., 4/16', 2, 8, 7)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (8, N'Eshay', N'Zehavi', CAST(N'2012-05-07' AS Date), N'050-1274589', N'Petah Tikwa, Walfson str., 4/16', 2, 8, 9)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (9, N'Mika', N'Onsay', CAST(N'2012-05-12' AS Date), N'050-4785415', N'Petah Tikwa, Hertsel str., 11/1', 1, 6, 6)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (12, N'Tony', N'Barnes', CAST(N'2012-03-30' AS Date), N'394-1068-14
+', N'Petah Tikwa', 1, 6, 16)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (13, N'Julia', N'Hall', CAST(N'2012-05-15' AS Date), N'237-4337-46
+', N'Petah Tikwa', 1, 6, 22)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (14, N'Antony', N'Armstrong', CAST(N'2012-03-18' AS Date), N'864-8367-21
+', N'Petah Tikwa', 1, 6, 23)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (15, N'Fiona', N'Evanse', CAST(N'2012-07-12' AS Date), N'153-2567-40
+', N'Petah Tikwa', 1, 6, 24)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (16, N'Vanessa', N'Hall', CAST(N'2012-04-19' AS Date), N'656-1277-23
+', N'Petah Tikwa', 1, 6, 25)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (17, N'Cadie', N'Scott', CAST(N'2012-01-03' AS Date), N'015-5963-05
+', N'Petah Tikwa', 1, 6, 26)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (18, N'Melissa', N'Craige', CAST(N'2012-08-07' AS Date), N'076-9912-16
+', N'Petah Tikwa', 1, 6, 27)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (19, N'Brooke', N'Payne', CAST(N'2012-03-04' AS Date), N'222-8252-01
+', N'Petah Tikwa', 1, 6, 28)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (20, N'Kristen', N'Perry', CAST(N'2012-04-15' AS Date), N'315-2730-92
+', N'Petah Tikwa', 1, 6, 29)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (22, N'Elise', N'Kelley', CAST(N'2012-08-19' AS Date), N'126-9127-09
+', N'Petah Tikwa', 2, 8, 30)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (23, N'Carl', N'Gray', CAST(N'2012-10-18' AS Date), N'520-3936-42
+', N'Petah Tikwa', 2, 8, 30)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (25, N'Vincent', N'Roberts', CAST(N'2012-11-15' AS Date), N'282-6313-85
+', N'Petah Tikwa', 2, 8, 32)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (26, N'Lydia', N'Grant', CAST(N'2012-11-02' AS Date), N'748-4954-69
+', N'Petah Tikwa', 2, 8, 33)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (27, N'Lucas', N'Turner', CAST(N'2012-12-15' AS Date), N'967-6494-95
+', N'Petah Tikwa', 2, 8, 34)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (28, N'Carl', N'Hamilton', CAST(N'2012-06-08' AS Date), N'371-3058-07
+', N'Petah Tikwa', 2, 8, 35)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (29, N'Chelsea', N'Barnes', CAST(N'2012-07-26' AS Date), N'603-3216-67
+', N'Petah Tikwa', 2, 8, 36)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (30, N'Ryan', N'Gray', CAST(N'2012-03-01' AS Date), N'657-3977-66
+', N'Petah Tikwa', 2, 8, 37)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (31, N'Charlotte', N'Watson', CAST(N'2012-07-18' AS Date), N'818-6202-49
+', N'Petah Tikwa', 2, 8, 38)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (32, N'James', N'Scott', CAST(N'2012-09-02' AS Date), N'835-9357-76
+', N'Petah Tikwa', 2, 8, 39)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (33, N'Vanessa', N'Fowler', CAST(N'2012-08-04' AS Date), N'763-0623-67
+', N'Petah tikwa', 2, 8, 40)
+GO
+SET IDENTITY_INSERT [dbo].[Pupils] OFF
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 1, 6, 1, 7, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 1, 7, 2, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 1, 6, 1, 8, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-24' AS Date), 1, 10, 2, 11, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 13, 2, 13, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 6, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 2, 7, 1, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 2, 12, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 12, 2, 8, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 7, 2, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 10, 2, 11, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 1, 7, 2, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 3, 7, 1, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 3, 12, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 1, 6, 1, 8, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 1, 7, 2, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 1, 6, 1, 8, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 2, 7, 1, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 4, 13, 1, 11, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 4, 6, 2, 7, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 2, 12, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 1, 7, 2, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 3, 12, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 1, 13, 2, 13, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 2, 6, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 3, 12, 2, 8, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 4, 7, 2, 6, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 5, 10, 2, 11, N'Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. ')
+GO
+SET IDENTITY_INSERT [dbo].[Teachers] ON 
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (6, N'Rami', N'Levi', N'050-6987542', 1, 2, 10)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (7, N'Galyna', N'Rudov', N'052-9457812', 3, 1, 8)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (8, N'Charly', N'Sine', N'050-4875685', 2, 2, 4)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (10, N'Shalevet', N'Zacay', N'050-9478512', 4, 6, 11)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (11, N'Ilana', N'Brohov', N'052-7548741', 5, 7, 12)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (12, N'Daniel', N'Fridman', N'057-9481252', 6, 5, 13)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (13, N'Ortal', N'Koffman', N'053-4789565', 7, 3, 14)
+GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (14, N'Sagiv', N'Levi', N'052-4784758', 1, 3, 17)
+GO
+SET IDENTITY_INSERT [dbo].[Teachers] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (1, N'chuchu@gmail.com', CAST(N'2019-01-04T17:11:49.083' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (2, N'bubu@gmail.com', CAST(N'2019-01-03T14:36:12.540' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (4, N'charly@gmail.com', CAST(N'2019-02-24T11:20:03.783' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (5, N'bibi@gmail.com', CAST(N'2019-03-03T17:40:06.650' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (6, N'lili@gmail.com', CAST(N'2019-03-03T18:46:56.040' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (7, N'robby@gmail.com', CAST(N'2019-01-03T16:13:31.777' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (8, N'galy@gmail.com', CAST(N'2019-03-03T17:34:22.533' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (9, N'rikky@gmail.com', CAST(N'2019-01-04T17:29:54.147' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (10, N'rami@gmail.com', CAST(N'2019-03-03T19:06:12.413' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (11, N'shalev@gmail.com', CAST(N'2019-01-06T19:38:15.677' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (13, N'daniel@gmail.com', CAST(N'2019-01-06T19:39:27.230' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (14, N'ortal@gmail.com', CAST(N'2019-02-13T11:50:07.740' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (16, N'tanya@mail.com', CAST(N'2019-03-03T15:12:42.763' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (17, N'sagi@gmail.com', CAST(N'2019-02-28T09:38:45.363' AS DateTime))
+GO
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (21, N'mikky@gmail.com', CAST(N'2019-03-03T18:02:34.440' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__LogsAndP__5E55825B63B2B780]    Script Date: 3/3/2019 8:30:56 PM ******/
+ALTER TABLE [dbo].[LogsAndPass] ADD  CONSTRAINT [UQ__LogsAndP__5E55825B63B2B780] UNIQUE NONCLUSTERED 
+(
+	[Login] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Attendance]  WITH CHECK ADD  CONSTRAINT [FK_Attendance_Classes] FOREIGN KEY([ClassID])
+REFERENCES [dbo].[Classes] ([ClassID])
+GO
+ALTER TABLE [dbo].[Attendance] CHECK CONSTRAINT [FK_Attendance_Classes]
+GO
+ALTER TABLE [dbo].[Attendance]  WITH CHECK ADD  CONSTRAINT [FK_Attendance_Lessons] FOREIGN KEY([LessonID])
+REFERENCES [dbo].[Lessons] ([LessonID])
+GO
+ALTER TABLE [dbo].[Attendance] CHECK CONSTRAINT [FK_Attendance_Lessons]
+GO
+ALTER TABLE [dbo].[Attendance]  WITH CHECK ADD  CONSTRAINT [FK_Attendance_Pupils] FOREIGN KEY([PupilID])
+REFERENCES [dbo].[Pupils] ([PupilID])
+GO
+ALTER TABLE [dbo].[Attendance] CHECK CONSTRAINT [FK_Attendance_Pupils]
+GO
+ALTER TABLE [dbo].[Classes]  WITH CHECK ADD  CONSTRAINT [FK_Classes_Teachers] FOREIGN KEY([TeacherID])
+REFERENCES [dbo].[Teachers] ([TeacherID])
+GO
+ALTER TABLE [dbo].[Classes] CHECK CONSTRAINT [FK_Classes_Teachers]
+GO
+ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Pupils] FOREIGN KEY([PupilID])
+REFERENCES [dbo].[Pupils] ([PupilID])
+GO
+ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Pupils]
+GO
+ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Teachers] FOREIGN KEY([TeacherID])
+REFERENCES [dbo].[Teachers] ([TeacherID])
+GO
+ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Teachers]
+GO
+ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Users] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Users]
+GO
+ALTER TABLE [dbo].[Pupils]  WITH CHECK ADD  CONSTRAINT [FK_Pupils_Classes] FOREIGN KEY([ClassID])
+REFERENCES [dbo].[Classes] ([ClassID])
+GO
+ALTER TABLE [dbo].[Pupils] CHECK CONSTRAINT [FK_Pupils_Classes]
+GO
+ALTER TABLE [dbo].[Pupils]  WITH CHECK ADD  CONSTRAINT [FK_Pupils_Teachers] FOREIGN KEY([TeacherID])
+REFERENCES [dbo].[Teachers] ([TeacherID])
+GO
+ALTER TABLE [dbo].[Pupils] CHECK CONSTRAINT [FK_Pupils_Teachers]
+GO
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Shedule_Classes] FOREIGN KEY([ClassID])
+REFERENCES [dbo].[Classes] ([ClassID])
+GO
+ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_Shedule_Classes]
+GO
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Shedule_Lessons] FOREIGN KEY([LessonID])
+REFERENCES [dbo].[Lessons] ([LessonID])
+GO
+ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_Shedule_Lessons]
+GO
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Shedule_Teachers] FOREIGN KEY([TeacherID])
+REFERENCES [dbo].[Teachers] ([TeacherID])
+GO
+ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_Shedule_Teachers]
+GO
+ALTER TABLE [dbo].[Teachers]  WITH CHECK ADD  CONSTRAINT [FK_Teachers_Categories1] FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[Categories] ([CategoryID])
+GO
+ALTER TABLE [dbo].[Teachers] CHECK CONSTRAINT [FK_Teachers_Categories1]
+GO
+ALTER TABLE [dbo].[Teachers]  WITH CHECK ADD  CONSTRAINT [FK_Teachers_Classes] FOREIGN KEY([ClassID])
+REFERENCES [dbo].[Classes] ([ClassID])
+GO
+ALTER TABLE [dbo].[Teachers] CHECK CONSTRAINT [FK_Teachers_Classes]
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_LogsAndPass] FOREIGN KEY([UserID])
+REFERENCES [dbo].[LogsAndPass] ([UserID])
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_LogsAndPass]
+GO
+USE [master]
+GO
+ALTER DATABASE [SchoolDB] SET  READ_WRITE 
+GO
