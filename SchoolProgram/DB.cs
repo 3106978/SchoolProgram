@@ -67,7 +67,7 @@ namespace SchoolProgram
         }
         public static class Users
         {
-            public static List<User> GetUsers()
+            internal static List<User> GetUsers()
             {
                 List<User> users = new List<User>();
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -97,7 +97,7 @@ namespace SchoolProgram
                 return users;
             }
 
-            public static bool InsertUser(User user)
+            internal static bool InsertUser(User user)
             {
 
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -120,7 +120,7 @@ namespace SchoolProgram
                 }
 
             }
-            public static List<Attendance> GetPupilAttendanceForUser(int userID, DateTime date)
+            internal static List<Attendance> GetPupilAttendanceForUser(int userID, DateTime date)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
@@ -212,7 +212,7 @@ namespace SchoolProgram
                         throw new Exception("Connection is null");
                     conn.Open();
                     string sql = "SELECT Date, [Number Of Lesson], TeachersComment, Lessons.LessonName," +
-                        " Teachers.TeacherID FROM(SELECT * FROM Schedule WHERE Date >= @from AND Date <= @to" +
+                        " Teachers.Name, Teachers.Surname, Teachers.TeacherID FROM(SELECT * FROM Schedule WHERE Date >= @from AND Date <= @to" +
                         " AND ClassID IN(SELECT ClassID FROM Pupils WHERE  UserID = @userID)) t LEFT OUTER JOIN Lessons" +
                         " ON Lessons.LessonID = t.LessonID  LEFT OUTER JOIN Teachers ON Teachers.TeacherID = t.TeacherID " +
                         " ORDER BY Date";

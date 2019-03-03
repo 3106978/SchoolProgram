@@ -611,10 +611,10 @@ function renderFormToGetSchedule(formName, forTeacher) {
     var span = $(".spanResult").html("");
     makeForm("Please, choose the dates:</br><br />", 0, formName, function (value) {
         span.text("");
-        let query = "api/Teacher/getSchedule?from=" + value[0] + "&to=" + value[1] + "&teacherID=" + localStorage['teacherID'] +
+        let query = "api/Teacher/getSchedule?from=" + value[0] + "&to=" + value[1] + "&teacherID=" + Number(localStorage['teacherID']) +
             "&forTeacher=" + forTeacher;
         if (!JSON.parse(localStorage['isATeacher'])) {
-            query = "api/Users/getSchedule?from=" + value[0] + "&to=" + value[1] + "&userID=" + localStorage['userID'];
+            query = "api/Users/getSchedule?from=" + value[0] + "&to=" + value[1] + "&userID=" + Number(localStorage['userID']);
         }
         
         $.get(query, function (data, status) {
@@ -657,7 +657,7 @@ function renderSchedule(forTeacher=false, isATeacher) {
         header2.append("<td>Number of lesson</td><td>Class</td><td>Lesson</td><td>Comment</td>");
     }
     else {
-        header.append("<td></td><td>Schedule of my Class</td><td>Schedule of my Class</td><td></td>");
+        header.append("<td></td><td></td><td>Schedule of my Class</td><td></td>");
         header2.append("<td>Number of lesson</td><td>Teacher</td><td>Lesson</td><td>Comment</td>");
     }
     table.append(header);
