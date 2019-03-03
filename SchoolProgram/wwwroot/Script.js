@@ -705,7 +705,7 @@ function getMessagesforUser() {
                 let table = $("<table></table>").addClass('attendanceOfPupil');
                 let header = $("<tr><td></td><td>Date</td><td>From teacher</td><td>Message</td></tr>");
                 table.append(header);
-                for (var i = 0; i < messages.length; i++) {
+                for (var i = messages.length-1; i >= 0; i--) {
                     let date = new Date(messages[i].date);
                     let utc = date.toUTCString();
 
