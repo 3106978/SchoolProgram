@@ -8,34 +8,23 @@
     <link href="index.css" rel="stylesheet" />
 
 </head>
-<body onload="renderClassesNameSelector()">
+<body onload="attendancePageforUser()">
 
     <div class="divSelectContainer">
-        <div class="divSelect" id="divSelectClasses">
-            <label>Select a Class:  </label>
-            <select id="selectClass">
-                <option selected hidden>Choose here</option>
-            </select>
-            
-        </div>
+       
         <div class="divSelect">
             <label>Select a date:  </label><input type="date" id="calendar" min="2019-01-01" />
         </div>
-        <button class="btnShowAttendanceList"  onclick="renderLessonsListToSelection()">Show</button>
+        <button class="btnShowAttendanceList" onclick="renderAttendanceTableForUser()">Show</button>
         <div class="divButtonClose"></div>
-       
-        
+
+
     </div>
     <div class="divSpanResult"><div class="spanResult"></div> </div>
-    <div class="divLessonsContainer"></div>
     <div class="divAttendanceContainer divAttendanceTable">
         <div class="divTableContainer"></div>
-        <div class="divText"></div>
         <div class="divButtons"></div>
 
     </div>
-   
-
-
-</body>
+    </body>
 </html>

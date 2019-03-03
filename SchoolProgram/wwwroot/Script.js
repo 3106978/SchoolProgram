@@ -1,13 +1,17 @@
-﻿var login, selectedClassName, password, userID, selectedDate, selectedClassID, countOfPresencePupils, teacherID, textArea;
+﻿var login, selectedClassName, password, userID, selectedDate, selectedClassID, countOfPresencePupils, teacherID, textArea, userIsATeacher, lessonId;
 var user = {};
 var newUser = {};
 var classes = [];
 var lessons = [];
 var pupilsToAttendance = [];
+var attendancePupil = [];
 var pupilsFromMyClass = [];
 var backButton = $('<input type="button" id="backButton"  value="back" onclick="window.location.reload();"/>');
 var btnClose = $('<button class="btnClosePage" type="button" onclick="window.open(\'\', \'_self\', \'\'); window.close();">Close</button>');
 var schedule = [];
+var imgV = "<img src='images/vImg.jpg' alt='true'>";
+var imgMinus = "<img src='images/minus.png' alt='false'>";
+
 class PupilsAttendanceWithComment {
     constructor(list, comment) {
         this.attendanceList = list;
@@ -33,25 +37,27 @@ function btnLogin() {
     login = $("#txtLogin").val();
     password = $("#txtPassword").val();
     if (login.length === 0 || password.length === 0) {
-        $("#spanLoginResult").html("Must type user and password!");
+        $(".spanLoginResult").html("Must type user and password!");
         return;
     }
-    $("#spanLoginResult").html("Please wait...");
+    $(".spanLoginResult").html("Please wait...");
     $("#btnLogin").attr("disabled", true);
 
     $.get("api/LogAndPas?login=" + login + "&password=" + password, function (data, status) {
         $("#btnLogin").attr("disabled", false);
         if (status === "success") {
+            $(".spanLoginResult").html("");
             if (data) {
                 $(".divLogin").hide();
                 user = data;
                 userID = data.userID;
-
+                localStorage["userID"] = userID;
                 if (user.isNewUser) {
 
                     $("#divSignup").show();
                     $("#txtEmail").focus();
                     $("#btnSignUp").attr("disabled", false);
+                    $(".entryDiv").append(backButton);
                     if (user.isATeacher) {
                         getTeacherID();
 
@@ -62,19 +68,19 @@ function btnLogin() {
 
                 else if (user.isATeacher) {
                     getTeacherID();
-                    teacherPage();
+                    menuPage(true);
                 }
 
                 else if (!user.isNewUser)
-                    userPage();
+                    menuPage(false);
             }
             else {
-                $("#spanLoginResult").html("The data is not valid. Please try again");
+                $(".spanLoginResult").html("The data is not valid. Please try again");
                 return;
             }
         }
         else {
-            $("#spanLoginResult").html("Error!");
+            $(".spanLoginResult").html("Error!");
             return;
         }
     });
@@ -83,11 +89,12 @@ function btnLogin() {
 
 
 function signUp() {
+
     var eMail = $("#txtEmail").val();
     var newpassword = $("#txtNewPassword").val();
-    $("#divSignup").append(backButton);
+
     if (eMail.length < 6 || newpassword.length < 6 || newpassword > 8) {
-        $("#spanLoginResult").text("Entered data is not valid! Please, try again.");
+        $(".spanLoginResult").text("Entered data is not valid! Please, try again.");
         return;
     }
     newUser = {
@@ -106,24 +113,24 @@ function signUp() {
         data: JSON.stringify(newUser),
         success: function (msg) {
             if (msg === true) {
-                $("#spanLoginResult").text("The SignUp success!");
+                $(".spanLoginResult").text("The SignUp success!");
                 $("#btnSignUp").attr("disabled", false);
                 if (user.isATeacher) {
                     $("#divSignup").hide();
-                    teacherPage();
+                    menuPage(true);
                 }
                 else if (!user.isATeacher && !user.isAdmin) {
                     $("#divSignup").hide();
-                    userPage();
+                    menuPage(false);
                 }
             }
             else {
-                $("#spanLoginResult").text("The SignUp is not successed!");
+                $(".spanLoginResult").text("The SignUp is not successed!");
                 return;
             }
         },
         failure: function (msg) {
-            $("#spanLoginResult").text("error from server side. The response is " + msg);
+            $(".spanLoginResult").text("error from server side. The response is " + msg);
             return;
         }
     });
@@ -131,46 +138,66 @@ function signUp() {
 
 }
 
-function userPage() {
-    $("#userPage").show();
-    $("#h1Hello").text("Hello ");
+function menuPage(isATeacher) {
+    localStorage['isATeacher'] = isATeacher;
+    $("#divMenuPage").show();
+    $("#divMenuPage").append(backButton);
+    if (!isATeacher) {
+        $('#pupilsLink').text('Messages');
+        $('#pupilsLink').attr('href', 'messagesFromTeacher.html');
+        $('#scheduleLink').attr('href', 'scheduleForUser.html');
+        $('#attendanceLink').attr('href', 'attendanceForUser.html');
+    }
+
 }
 
-function teacherPage() {
-    $("#divTeacherPage").show();
-    $("#divTeacherPage").append(backButton);
+function attendancePageforUser() {
+    
+    $(".btnShowAttendanceList").css({ 'position': 'relative', 'margin-top': 'auto' });
+    $(".divButtonClose").css("top", "none");
+    var today = getDateofTodayInFormat();
+    $("#calendar").attr("max", today);
+    $("#calendar").attr("value", today);
+    $(".spanResult").html("");
+    $(".divButtonClose").append(btnClose);
+   
 }
+
 
 //the method is executed after the Attendance.html page is loaded and is intended to query
-//from the database a list of all classes existing in the school, display it 
+//from the database a list of all classes existing in the school (if user is a teacher), display it 
 //and establish dates available in the calendar for selection
 function renderClassesNameSelector() {
     var today = getDateofTodayInFormat();
     $("#calendar").attr("max", today);
     $("#calendar").attr("value", today);
     $(".spanResult").html("");
-    $(".divSelectContainer").append(btnClose);
-    $.get("api/Teacher/GetClasses", function (data, status) {
-        $("#btnShowAttendanceList").attr("disabled", false);
-        if (status === "success") {
-            classes = data;
-            if (classes && classes.length > 0) {
-                for (var i = 0; i < classes.length; i++) {
-                    $("#selectClass").append('<option value=' + classes[i].className + '>' + classes[i].className + '</option>');
+    $(".divButtonClose").append(btnClose);
+        
+        $.get("api/Teacher/GetClasses", function (data, status) {
+            $("#btnShowAttendanceList").attr("disabled", false);
+            if (status === "success") {
+                classes = data;
+                if (classes && classes.length > 0) {
+                    for (var i = 0; i < classes.length; i++) {
+                        $("#selectClass").append('<option value=' + classes[i].className + '>' + classes[i].className + '</option>');
+                    }
+                }
+                else {
+                    $(".spanResult").html("Oops! Classes is null...");
+                    return;
                 }
             }
             else {
-                $(".spanResult").html("Oops! Classes is null...");
+                $(".spanResult").html("Oops! server is not response...");
                 return;
             }
-        }
-        else {
-            $(".spanResult").html("Oops! server is not response...");
-            return;
-        }
-    });
-
+        });
+    
 }
+   
+
+
 //the method formats the date chosen by the client to the date format for the database
 // to 'yyyy - mm - dd'
 function getDateofTodayInFormat() {
@@ -187,7 +214,6 @@ function getDateofTodayInFormat() {
     today = yyyy + '-' + mm + '-' + dd;
     return today;
 }
-
 function renderLessonsListToSelection() {
     $(".divText").hide();
     $(".spanResult").text('');
@@ -228,7 +254,7 @@ function renderLessonsListToSelection() {
                 let h1 = $('<h1 align="center" id="resultH1"></h1>').text('There are no lessons on this day by Schedule');
                 $(".divLessonsContainer").append(h1);
             }
-            backButton.css('margin-left', '45%');
+            backButton.css({ 'position': 'relative' });
             $(".divLessonsContainer").append(backButton);
         }
         else {
@@ -242,6 +268,7 @@ function renderAttendanceTable(i) {
     $(".divText").show();
     $(".divLessonsContainer").hide();
     $(".spanResult").text("");
+    lessonId = lessons[i].lessonID;
     $.get("api/Teacher/GetPupilsListToAttendance?date=" + selectedDate + "&classId=" + selectedClassId +
         "&lessonId=" + lessons[i].lessonID + "&numberOfLesson=" + lessons[i].numberOfLesson, function (data, status) {
             if (status === "success") {
@@ -279,6 +306,48 @@ function renderAttendanceTable(i) {
                 $(".spanResult").text("Ooops! Something wrong in server side!");
         });
 }
+function renderAttendanceTableForUser() {
+    $(".divSelectContainer").hide();
+    $(".spanResult").text("");
+    selectedDate = $("#calendar").val();
+    $.get("api/Users/getAttendanceforUser?userID=" + localStorage["userID"] + "&date=" + selectedDate, function (data, status) {
+        if (status==="success") {
+            if (data && data.length!==0) {
+                attendancePupil = data;
+                let table=$("<table></table>").addClass("attendanceOfPupil");
+                let header = $("<tr><td>Number of lesson</td><td>Lesson</td><td>Presence</td><td>Teacher</td><td>Comment</td></tr>");
+                table.append(header);
+                let header2 = $("<tr><td></td><td></td><td>" + selectedDate + "</td><td></td><td></td></tr>");
+                table.append(header2);
+                for (var i = 0; i < attendancePupil.length; i++) {
+                    let str = "<td>" + attendancePupil[i].numberOfLesson + "</td><td>" + attendancePupil[i].lesson.lessonName + "</td>";
+                    if (attendancePupil[i].presence)
+                        str += "<td>" + imgV + "</td>";
+                    else
+                        str += "<td>" + imgMinus + "</td>";
+                    str += "<td>" + attendancePupil[i].teacher.name + " " + attendancePupil[i].teacher.surname + "</td><td>" + attendancePupil[i].comment + "</td>";
+                    let row = $("<tr></tr>");
+                    row.append(str);
+                    table.append(row);
+                }
+                $(".divTableContainer").append(table);
+                $(".divButtons").append(backButton);
+                $(".divButtons").append(btnClose);
+
+
+            }
+            else {
+                $(".spanResult").html("<h2>There are no lessons in this day!</h2>");
+                $(".divButtons").append(backButton);
+            }
+        }
+        else {
+            $(".spanResult").text("Ooops! Something wrong in server side!");
+            $(".divButtons").append(backButton);
+            return;
+        }
+    });
+}
 function getTeacherID() {
     $(".spanResult").text("");
     $.get("api/Teacher/GetTeacherID?userID=" + userID, function (data, status) {
@@ -306,8 +375,6 @@ function sendAttendanceToServer() {
         pupilsToAttendance[i].presence = $(this).find('input:checkbox').is(':checked');
         pupilsToAttendance[i].pupil.pupilID = Number($(this).find("input:checkbox").val());
         pupilsToAttendance[i].teacher.teacherID = localStorage['teacherID'];
-
-
         var commentFromInput = $(this).find('input:text').val();
         if (commentFromInput !== undefined)
             pupilsToAttendance[i].comment = commentFromInput;
@@ -326,7 +393,6 @@ function sendAttendanceToServer() {
                 for (var i = 0; i < pupilsToAttendance.length; i++) {
                     pupilsToAttendance[i].teacher.name = result.name;
                     pupilsToAttendance[i].teacher.surname = result.surname;
-
                 }
                 renderTable();
                 textArea.hide();
@@ -342,13 +408,8 @@ function sendAttendanceToServer() {
         }
     });
 }
-
-
-
 function renderTable() {
     var table = $("<table></table>").addClass("attendanceTable");
-    var imgV = "<img src='images/vImg.jpg' alt='true'>";
-    var imgMinus = "<img src='images/minus.png' alt='false'>";
     countOfPresencePupils = 0;
     let header1 = $("<tr></tr>").html("<th></th><th></th><th>Class: " + selectedClassName +
         "</th><th>" + selectedDate + "</th><th></th>");
@@ -423,7 +484,7 @@ function getListOfPupilsFromMyClass() {
 
             }
             else {
-                $(".spanResult").html("<h1 align='center'>You don't have a class</h1>");/*.css('margin-left','40%' );*/
+                $(".spanResult").html("<h1 align='center'>You don't have a class</h1>");
                 $(".circle").hide();
                 return;
             }
@@ -435,12 +496,13 @@ function getListOfPupilsFromMyClass() {
     });
 
 }
+
 function showForm(i, formName) {
 
     makeForm("Enter your message:</br>", i, formName, function (value) {
         var message = {
             date: new Date(),
-            teacherID: Number(localStorage['teacherID']),
+            teacher: {teacherID: Number(localStorage['teacherID'])},
             pupilID: pupilsFromMyClass[i].pupilID,
             userID: pupilsFromMyClass[i].userID,
             messageText: value
@@ -519,7 +581,11 @@ function makeForm(text, i, formName, callback) {
     };
     form.elements.cancel.onclick = function () {
         $(".spanResult").text("");
-        complete(null);
+        if (localStorage['isATeacher'])
+            complete(null);
+        else {
+            window.open('', '_self', ''); window.close();
+        }  
     };
     container.style.display = 'block';
     if (formName === 'messageForm')
@@ -545,8 +611,13 @@ function renderFormToGetSchedule(formName, forTeacher) {
     var span = $(".spanResult").html("");
     makeForm("Please, choose the dates:</br><br />", 0, formName, function (value) {
         span.text("");
-        $.get("api/Teacher/getSchedule?from=" + value[0] + "&to=" + value[1] + "&teacherID=" + localStorage['teacherID'] +
-            "&forTeacher=" + forTeacher, function (data, status) {
+        let query = "api/Teacher/getSchedule?from=" + value[0] + "&to=" + value[1] + "&teacherID=" + localStorage['teacherID'] +
+            "&forTeacher=" + forTeacher;
+        if (!localStorage['isATeacher']) {
+            query = "api/Users/getSchedule?from=" + value[0] + "&to=" + value[1] + "&userID=" + localStorage['userID'];
+        }
+        
+        $.get(query, function (data, status) {
                 if (status === "success") {
                     if (!data) {
                         span.html("<h1>Response from server is not correct</h1>");
@@ -554,7 +625,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
                     }
                     if (data.length === 0) {
                         let text = "You don't have a lessons by Schedule in this period of dates";
-                        if (!forTeacher)
+                        if (!forTeacher || !localStorage['isATeacher'])
                             text = "Where are no lessons in this period of dates";
                         span.html("<h1 align='center'>" + text + "</h1>");
                         backButton.css('margin-left', '50%');
@@ -563,7 +634,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
                     }
                     schedule = data;
                     $(".divContainerScheduleButtons").hide();
-                    renderShedule(forTeacher);
+                    renderSchedule(forTeacher, localStorage['isATeacher']);
 
                 }
                 else {
@@ -575,7 +646,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
     });
 }
 
-function renderShedule(forTeacher) {
+function renderSchedule(forTeacher=false, isATeacher) {
 
     var table = $("<table></table>").addClass('scheduleTable');
     var header = $("<tr></tr>");
@@ -586,14 +657,14 @@ function renderShedule(forTeacher) {
         header2.append("<td>Number of lesson</td><td>Class</td><td>Lesson</td><td>Comment</td>");
     }
     else {
-        header.append("<td></td><td>Schedule of my Class</td><td></td><td></td>");
+        header.append("<td></td><td>Schedule of my Class</td><td>Schedule of my Class</td><td></td>");
         header2.append("<td>Number of lesson</td><td>Teacher</td><td>Lesson</td><td>Comment</td>");
     }
     table.append(header);
     table.append(header2);
 
     let date = new Date(schedule[0].date);
-    var trDate = $("<tr style='background-color:pink'><td></td><td>" + date.toDateString() + "</td><td></td><td></td></tr>");
+    var trDate = $("<tr style='background-color:pink'><td></td><td></td><td>" + date.toDateString() + "</td><td></td></tr>");
     table.append(trDate);
     for (var i = 0; i < schedule.length; i++) {
         var tr = $("<tr></tr>");
@@ -601,7 +672,7 @@ function renderShedule(forTeacher) {
         if (i > 0) {
             let nextDate = new Date(schedule[i].date);
             if (date.toDateString() !== nextDate.toDateString()) {
-                trDate = $("<tr style='background-color:pink'><td></td><td>" + nextDate.toDateString() + "</td><td></td><td></td></tr>");
+                trDate = $("<tr style='background-color:pink'><td></td><td></td><td>" + nextDate.toDateString() + "</td><td></td></tr>");
                 table.append(trDate);
                 date = nextDate;
             }
@@ -609,7 +680,7 @@ function renderShedule(forTeacher) {
         var cells = "</td><td>" + schedule[i].numberOfLesson + "</td>";
         if (forTeacher)
             cells += "<td>" + schedule[i].class.className + "</td>";
-        else
+        else 
             cells += "<td>" + schedule[i].teacher.name + " " + schedule[i].teacher.surname + "</td>";
         cells += "<td>" + schedule[i].lesson.lessonName + "</td><td>" + schedule[i].teachersComment + "</td></tr>";
         tr.append(cells);
@@ -618,9 +689,38 @@ function renderShedule(forTeacher) {
     }
 
     $(".divScheduleTableContainer").append(table);
+    backButton.css('position', 'relative');
     $(".divScheduleTableContainer").append(backButton);
-
 }
 function renderButtons() {
     $(".divContainerScheduleButtons").append(btnClose);
+}
+
+function getMessagesforUser() {
+    $.get("api/Users/getMessages?userID=" + localStorage['userID'], function (data, status) {
+        if (status === "success") {
+            
+            if (data && data.length !== 0) {
+                let messages = data;
+                let table = $("<table></table>").addClass('attendanceOfPupil');
+                let header = $("<tr><td></td><td>Date</td><td>From teacher</td><td>Message</td></tr>");
+                table.append(header);
+                for (var i = 0; i < messages.length; i++) {
+                    let date = new Date(messages[i].date);
+                    let utc = date.toUTCString();
+
+                    let row = $("<tr><td>" + (i + 1) + "</td><td>" + utc + "</td><td>" + messages[i].teacher.name +
+                        " " + messages[i].teacher.surname + "</td><td>" + messages[i].messageText + "</td></tr>");
+                    table.append(row);
+                }
+
+                $(".divTableContainer").append(table);
+            }
+            else 
+                $(".spanResult").html("<h2>You don't have a messages</h2>");
+        }
+        else 
+            $(".spanResult").html("<h2>Something wrong in server side</h2>");
+    });
+    $(".divButtons").append(btnClose);
 }

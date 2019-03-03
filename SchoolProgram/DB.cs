@@ -120,6 +120,132 @@ namespace SchoolProgram
                 }
 
             }
+            public static List<Attendance> GetPupilAttendanceForUser(int userID, DateTime date)
+            {
+                using (SqlConnection conn = new SqlConnection(CONN_STRING))
+                {
+                    if (conn == null)
+                        throw new Exception("Connection is null");
+                    conn.Open();
+                    string sql = "SELECT Pupils.PupilID,  Presence, Teachers.Name, Teachers.Surname, Comment, " +
+                        "NumberOfLesson, Lessons.LessonName FROM Pupils INNER JOIN(SELECT PupilID, Presence, TeacherID," +
+                        " NumberOfLesson, LessonID, Comment FROM Attendance WHERE  Date = @date AND PupilID IN " +
+                        "(select PupilID FROM Pupils WHERE UserID = @userID)) t ON Pupils.PupilID = t.PupilID " +
+                        "INNER JOIN Teachers ON t.TeacherID = Teachers.TeacherID INNER JOIN Lessons ON " +
+                        "Lessons.LessonID = t.LessonID";
+                    using (SqlCommand comm = new SqlCommand(sql, conn))
+                    {
+                        comm.Add("@date", date);
+                        comm.Add("@userID", userID);
+                        using (SqlDataReader rd = comm.ExecuteReader())
+                        {
+                            List<Attendance> list = new List<Attendance>();
+                            while (rd.Read())
+                            {
+                                Attendance att = new Attendance
+                                {
+                                    Pupil = new Pupil { PupilID = rd.GetInt32(0) },
+                                    Presence = rd.GetBoolean(rd.GetOrdinal("Presence")),
+                                    Teacher = new Teacher
+                                    {
+                                        Name = rd.GetString(2),
+                                        Surname = rd.GetString(3)
+                                    },
+                                    Comment = rd.GetString(4),
+                                    NumberOfLesson = rd.GetInt32(5),
+                                    Lesson = new Lesson { LessonName = rd.GetString(6) }
+
+                                };
+
+                                list.Add(att);
+                            }
+                            return list;
+                        }
+                    }
+                }
+            }
+
+            internal static List<Message> GetMessages(int userID)
+            {
+                using (SqlConnection conn = new SqlConnection(CONN_STRING))
+                {
+                    if (conn == null)
+                        throw new Exception("Connection is null");
+                    conn.Open();
+                    string sql = "SELECT Messages.Date, Teachers.Name, Teachers.Surname, Messages.Message " +
+                        "FROM Messages INNER JOIN Teachers ON Messages.UserID = 6 AND Teachers.TeacherID IN " +
+                        "(SELECT TeacherID FROM Messages WHERE UserID = @userID)";
+                    using (SqlCommand comm = new SqlCommand(sql, conn))
+                    {
+                        comm.Add("@userID", userID);
+                        using (SqlDataReader rd = comm.ExecuteReader())
+                        {
+                            List<Message> list = new List<Message>();
+                            while (rd.Read())
+                            {
+                                Message m = new Message()
+                                {
+                                    Date = rd.GetDateTime(0),
+                                    Teacher = new Teacher
+                                    {
+                                        Name = rd.GetString(1),
+                                        Surname = rd.GetString(2)
+                                    },
+                                    MessageText = rd.GetString(3)
+                                };
+                                list.Add(m);
+                            }
+                            return list;
+                        }
+                    }
+
+
+                }
+
+            }
+
+            internal static  List<Schedule> GetSchedule(int userID, DateTime from, DateTime to)
+            {
+                using (SqlConnection conn = new SqlConnection(CONN_STRING))
+                {
+                    if (conn == null)
+                        throw new Exception("Connection is null");
+                    conn.Open();
+                    string sql = "SELECT Date, [Number Of Lesson], TeachersComment, Lessons.LessonName," +
+                        " Teachers.TeacherID FROM(SELECT * FROM Schedule WHERE Date >= @from AND Date <= @to" +
+                        " AND ClassID IN(SELECT ClassID FROM Pupils WHERE  UserID = @userID)) t LEFT OUTER JOIN Lessons" +
+                        " ON Lessons.LessonID = t.LessonID  LEFT OUTER JOIN Teachers ON Teachers.TeacherID = t.TeacherID " +
+                        " ORDER BY Date";
+                    using (SqlCommand comm = new SqlCommand(sql, conn))
+                    {
+                        comm.Add("@from", from);
+                        comm.Add("@to", to);
+                        comm.Add("@userID", userID);
+                        using (SqlDataReader rd = comm.ExecuteReader())
+                        {
+                            List<Schedule> list = new List<Schedule>();
+                            while (rd.Read())
+                            {
+                                Schedule s = new Schedule();
+                                s.Date = rd.GetDateTime(0);
+                                s.NumberOfLesson = rd.GetInt32(1);
+                                s.TeachersComment = rd.CheckEmptyStringFromDB(2);
+                                s.Lesson = new Lesson
+                                {
+                                    LessonName = rd.GetString(3)
+                                };
+                                s.Teacher = new Teacher
+                                {
+                                    Name = rd.GetString(4),
+                                    Surname = rd.GetString(5)
+                                };
+                                list.Add(s);
+                            }
+                            return list;
+                        }
+                    }
+                }
+            }
         }
 
         public static class Teachers
@@ -128,6 +254,8 @@ namespace SchoolProgram
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
+                    if (conn == null)
+                        throw new Exception("Connection is null");
                     conn.Open();
                     string sql = "SELECT TeacherID FROM Teachers WHERE UserID=@userId";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
@@ -255,24 +383,6 @@ namespace SchoolProgram
                     }
                 }
             }
-            public static bool InsertPupilsListToAttendanceTable(DateTime date, int classId, int lessonId, int numberOfLesson, SqlConnection conn)
-            {
-                string sql = "DECLARE @t TABLE(PupilID INT NOT NULL, Date date DEFAULT @date," +
-                    " LessonID int DEFAULT @lessonId, ClassId  int DEFAULT @classId," +
-                    "  NumberOfLesson int DEFAULT @numberOfLesson)" +
-                    " INSERT INTO @t(PupilID) SELECT PupilID FROM Pupils WHERE ClassID = @classId" +
-                    " INSERT INTO Attendance(PupilID, Date, LessonID, ClassID, NumberOfLesson)" +
-                    " SELECT* FROM @t";
-                using (SqlCommand comm = new SqlCommand(sql, conn))
-                {
-                    comm.Add("@date", date);
-                    comm.Add("@classId", classId);
-                    comm.Add("@lessonId", lessonId);
-                    comm.Add("@numberOfLesson", numberOfLesson);
-                    return comm.ExecuteNonQuery() == 1;
-                }
-            }
-
             public static AttendanceWithTeacherComment GetPupilsListFromAttendance(DateTime date, int classId, int lessonId, int numberOfLesson)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -281,27 +391,49 @@ namespace SchoolProgram
                         throw new Exception("Connection is null");
                     conn.Open();
                     bool dbHaveTheData = AttendanceHasData(date, classId, lessonId, numberOfLesson, conn);
-                    bool inserted;
+                    List<Pupil> pupilsListWithoutAttendance = new List<Pupil>();
+                    List<Attendance> list = new List<Attendance>();
                     if (!dbHaveTheData)
                     {
-                        inserted = InsertPupilsListToAttendanceTable(date, classId, lessonId, numberOfLesson, conn);
-                        if (!inserted)
-                            throw new Exception("The Insert data to data base Is Not work");
-                    }
+                        pupilsListWithoutAttendance = GetPupilsToAttendance(classId, conn);
+                        for (int i = 0; i < pupilsListWithoutAttendance.Count; i++)
+                        {
+                            Attendance a = new Attendance
+                            {
+                                Pupil = new Pupil
+                                {
+                                    PupilID = pupilsListWithoutAttendance[i].PupilID,
+                                    Name = pupilsListWithoutAttendance[i].Name,
+                                    Surname = pupilsListWithoutAttendance[i].Surname,
+                                },
+                                Presence = null,
+                                Teacher = new Teacher
+                                {
+                                    Name = "",
+                                    Surname = ""
+                                },
+                                Comment = null,
+                                Lesson = new Lesson { LessonID = lessonId },
+                                NumberOfLesson = numberOfLesson,
+                                Date = date,
+                                ClassID = classId,
+                            };
+                            list.Add(a);
+                        }
+                        AttendanceWithTeacherComment listWithTeacherCommentToLesson = new AttendanceWithTeacherComment(list, null);
 
+                        return listWithTeacherCommentToLesson;
+                    }
                     string sql = "SELECT Pupils.PupilID, Pupils.Name, Pupils.Surname, Presence, Teachers.Name, " +
-                        "Teachers.Surname, Comment FROM Pupils INNER JOIN (SELECT PupilID, Presence, " +
-                        "TeacherID, Comment FROM Attendance WHERE Date = @date AND ClassID = @classid " +
-                        "AND LessonID = @lessonId) t ON Pupils.PupilID = t.PupilID " +
-                        "LEFT OUTER JOIN Teachers ON t.TeacherID IS NOT NULL AND Teachers.TeacherID = t.TeacherID";
+                       "Teachers.Surname, Comment FROM Pupils INNER JOIN (SELECT PupilID, Presence, " +
+                       "TeacherID, Comment FROM Attendance WHERE Date = @date AND ClassID = @classid " +
+                       "AND LessonID = @lessonId) t ON Pupils.PupilID = t.PupilID " +
+                       "LEFT OUTER JOIN Teachers ON t.TeacherID IS NOT NULL AND Teachers.TeacherID = t.TeacherID";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
                     {
                         comm.Add("@date", date);
                         comm.Add("@classId", classId);
                         comm.Add("@lessonId", lessonId);
-
-                        List<Attendance> list = new List<Attendance>();
-
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
                             while (reader.Read())
@@ -313,22 +445,14 @@ namespace SchoolProgram
                                     Name = reader.GetString(1),
                                     Surname = reader.GetString(2)
                                 };
-
-                                if (reader.IsDBNull(reader.GetOrdinal("Presence")))
-                                    at.Presence = null;
-                                else
-                                    at.Presence = reader.GetBoolean(reader.GetOrdinal("Presence"));
+                                at.Presence = reader.GetBoolean(reader.GetOrdinal("Presence"));
                                 at.Teacher = new Teacher
                                 {
                                     Name = reader.CheckEmptyStringFromDB(4),//Extension method
                                     Surname = reader.CheckEmptyStringFromDB(5)
                                 };
-
-                                if (!reader.IsDBNull(6))
-                                    at.Comment = reader.GetString(6);
-                                else
-                                    at.Comment = null;
-                                at.LessonID = lessonId;
+                                at.Comment = reader.GetString(6);
+                                at.Lesson = new Lesson { LessonID = lessonId };
                                 at.NumberOfLesson = numberOfLesson;
                                 at.Date = date;
                                 at.ClassID = classId;
@@ -341,24 +465,46 @@ namespace SchoolProgram
                         comm.Add("@lessonNumber", numberOfLesson);
                         using (SqlDataReader rd = comm.ExecuteReader())
                         {
-                            AttendanceWithTeacherComment atList = new AttendanceWithTeacherComment(list, null);
+                            AttendanceWithTeacherComment listWithComment = new AttendanceWithTeacherComment(list, null);
 
                             rd.Read();
                             if (!rd.IsDBNull(0))
                             {
-                                atList.TeachersComment = rd.GetString(0);
+                                listWithComment.TeachersComment = rd.GetString(0);
                             }
 
-                            return atList;
+                            return listWithComment;
                         }
 
                     }
-
                 }
 
             }
+            public static List<Pupil> GetPupilsToAttendance(int classID, SqlConnection conn)
+            {
+                string sql = "SELECT PupilID, Name, Surname FROM Pupils WHERE PupilID IN " +
+                    "(SELECT PupilID FROM Pupils WHERE ClassID = @classID)";
+                using (SqlCommand comm = new SqlCommand(sql, conn))
+                {
+                    comm.Add("@classID", classID);
 
+                    using (SqlDataReader rd = comm.ExecuteReader())
+                    {
+                        List<Pupil> list = new List<Pupil>();
+                        while (rd.Read())
+                        {
+                            Pupil p = new Pupil();
+                            p.PupilID = rd.GetInt32(0);
+                            p.Name = rd.GetString(1);
+                            p.Surname = rd.GetString(2);
 
+                            list.Add(p);
+                        }
+
+                        return list;
+                    }
+                }
+            }
             public static bool InsertDataToAttendanceTable(AttendanceWithTeacherComment list)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -366,8 +512,8 @@ namespace SchoolProgram
                     if (conn == null)
                         throw new Exception("Connection is null");
                     conn.Open();
-                    string sql = "UPDATE  Attendance SET TeacherID=@teacherId, Presence=@presence," +
-                        " Comment=@comment WHERE PupilID=@pupilId AND Date=@date AND NumberOfLesson=@number";
+                    string sql = "INSERT INTO Attendance VALUES (@date, @lessonId, @pupilId,  @presence, @teacherId, @classId, " +
+                        "@numberOfLesson, @comment)";
                     using (SqlCommand command = new SqlCommand(sql, conn))
                     {
                         int teacherID = list.AttendanceList[0].Teacher.TeacherID;
@@ -382,6 +528,8 @@ namespace SchoolProgram
                         command.Add("@teacherComment", list.TeachersComment);
                         command.Add("@numberOfLesson", list.AttendanceList[0].NumberOfLesson);
                         command.Add("@classId", list.AttendanceList[0].ClassID);
+                        command.Add("@lessonId", list.AttendanceList[0].Lesson.LessonID);
+
                         int count = 0;
                         for (int i = 0; i < list.AttendanceList.Count; i++)
                         {
@@ -452,7 +600,7 @@ namespace SchoolProgram
                                 p.PhoneNumber = reader.GetString(4);
                                 p.Address = reader.GetString(5);
                                 p.UserID = reader.GetInt32(6);
-                                p.Class = new Class {ClassName = reader.GetString(7) };
+                                p.Class = new Class { ClassName = reader.GetString(7) };
                                 pupils.Add(p);
                             }
                             return pupils;
@@ -474,7 +622,7 @@ namespace SchoolProgram
                     {
 
                         comm.Add("@date", m.Date);
-                        comm.Add("@teacher", m.TeacherID);
+                        comm.Add("@teacher", m.Teacher.TeacherID);
                         comm.Add("@pupil", m.PupilID);
                         comm.Add("@user", m.UserID);
                         comm.Add("@mess", m.MessageText);
@@ -556,23 +704,27 @@ namespace SchoolProgram
                 }
             }
         }
+
+
+
+    }
+
+    static class SqlCommandExtensions
+    {
+        public static void Add(this SqlCommand cmd, string param, object value)
+        {
+            cmd.Parameters.AddWithValue(param, value == null ? DBNull.Value : value);
+        }
+
+        public static string CheckEmptyStringFromDB(this SqlDataReader rd, int num)
+        {
+            if (!rd.IsDBNull(num))
+                return rd.GetString(num);
+            return string.Empty;
+        }
     }
 }
 
 
-static class SqlCommandExtensions
-{
-    public static void Add(this SqlCommand cmd, string param, object value)
-    {
-        cmd.Parameters.AddWithValue(param, value == null ? DBNull.Value : value);
-    }
-
-    public static string CheckEmptyStringFromDB(this SqlDataReader rd, int num)
-    {
-        if (!rd.IsDBNull(num))
-            return rd.GetString(num);
-        return string.Empty;
-    }
-}
 
 

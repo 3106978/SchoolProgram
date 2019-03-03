@@ -26,5 +26,31 @@ namespace SchoolProgram.Controllers
             return false;
             
         }
+
+        [HttpGet("getAttendanceforUser")]
+        public List<Attendance> GetAttendanceListForUser(int userID, DateTime date)
+        {
+            if (userID <= 0 || date == null)
+                throw new Exception("The input data from client side is not correct");
+
+            return DB.Users.GetPupilAttendanceForUser(userID, date);
+        }
+
+        [HttpGet("getMessages")]
+        public List<Message> GetMessages (int userID)
+        {
+            if (userID <= 0)
+                throw new Exception("The input data from client side is not correct");
+            return DB.Users.GetMessages(userID);
+        }
+        [HttpGet("getSchedule")]
+
+        public List<Schedule> GetSchedule(DateTime from, DateTime to, int userID)
+        {
+            if (from == default(DateTime) || to == default(DateTime) || userID <= 0)
+                throw new Exception("The input data from client is not correct");
+            return DB.Users.GetSchedule(userID, from, to );
+        }
+
     }
 }

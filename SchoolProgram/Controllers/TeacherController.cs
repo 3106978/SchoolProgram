@@ -40,7 +40,7 @@ namespace SchoolProgram.Controllers
         }
 
         [HttpPost]
-        public Teacher EditAttendanceTable([FromBody]AttendanceWithTeacherComment attendanceFromClientWithComment)
+        public Teacher InsertDataToAttendanceTable([FromBody]AttendanceWithTeacherComment attendanceFromClientWithComment)
         {
             if (DB.Teachers.InsertDataToAttendanceTable(attendanceFromClientWithComment))
             {
@@ -53,7 +53,7 @@ namespace SchoolProgram.Controllers
         public int GetTeacherID([FromQuery]int userID)
         {
             if (userID < 0)
-                throw new Exception("The userID from Client is not legal");
+                throw new Exception("The input data from client is not correct");
             else
                 return DB.Teachers.GetTeacherID(userID);
         }
@@ -62,7 +62,7 @@ namespace SchoolProgram.Controllers
         public List<Pupil> GetPupilsFromMyClass([FromQuery] int teacherID)
         {
             if (teacherID < 0)
-                throw new Exception("The Teacher Id from client is not correct");
+                throw new Exception("The input data from client is not correct");
             return DB.Teachers.GetPupilsFromMyClass(teacherID);
         }
 
@@ -70,7 +70,7 @@ namespace SchoolProgram.Controllers
         public bool SendMessage([FromBody]Message m)
         {
             if (m == null)
-                throw new Exception("The Message from Client is null");
+                throw new Exception("The input data from client is not correct");
 
             return DB.Teachers.SendMessageToServer(m);
         }
@@ -80,8 +80,10 @@ namespace SchoolProgram.Controllers
         public List<Schedule> GetSchedule( DateTime from, DateTime to, int teacherID, bool forTeacher)
         {
             if (from == default(DateTime) || to == default(DateTime) || teacherID <= 0)
-                throw new Exception("Some Data from client is not correct");
+                throw new Exception("The input data from client is not correct");
             return DB.Teachers.GetSchedule(from, to, teacherID, forTeacher);
         }
+
+        
     }
 }
