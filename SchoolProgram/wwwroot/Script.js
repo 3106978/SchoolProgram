@@ -581,7 +581,7 @@ function makeForm(text, i, formName, callback) {
     };
     form.elements.cancel.onclick = function () {
         $(".spanResult").text("");
-        if (localStorage['isATeacher'])
+        if (JSON.parse(localStorage['isATeacher']))
             complete(null);
         else {
             window.open('', '_self', ''); window.close();
@@ -613,7 +613,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
         span.text("");
         let query = "api/Teacher/getSchedule?from=" + value[0] + "&to=" + value[1] + "&teacherID=" + localStorage['teacherID'] +
             "&forTeacher=" + forTeacher;
-        if (!localStorage['isATeacher']) {
+        if (!JSON.parse(localStorage['isATeacher'])) {
             query = "api/Users/getSchedule?from=" + value[0] + "&to=" + value[1] + "&userID=" + localStorage['userID'];
         }
         
@@ -625,7 +625,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
                     }
                     if (data.length === 0) {
                         let text = "You don't have a lessons by Schedule in this period of dates";
-                        if (!forTeacher || !localStorage['isATeacher'])
+                        if (!forTeacher || !JSON.parse(localStorage['isATeacher']))
                             text = "Where are no lessons in this period of dates";
                         span.html("<h1 align='center'>" + text + "</h1>");
                         backButton.css('margin-left', '50%');
@@ -634,7 +634,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
                     }
                     schedule = data;
                     $(".divContainerScheduleButtons").hide();
-                    renderSchedule(forTeacher, localStorage['isATeacher']);
+                    renderSchedule(forTeacher, JSON.parse(localStorage['isATeacher']));
 
                 }
                 else {
