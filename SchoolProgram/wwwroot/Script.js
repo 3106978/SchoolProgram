@@ -646,7 +646,7 @@ function renderFormToGetSchedule(formName, forTeacher) {
     });
 }
 
-function renderSchedule(forTeacher=false, isATeacher) {
+function renderSchedule(forTeacher=false) {
 
     var table = $("<table></table>").addClass('scheduleTable');
     var header = $("<tr></tr>");
@@ -657,14 +657,14 @@ function renderSchedule(forTeacher=false, isATeacher) {
         header2.append("<td>Number of lesson</td><td>Class</td><td>Lesson</td><td>Comment</td>");
     }
     else {
-        header.append("<td></td><td></td><td>Schedule of my Class</td><td></td>");
+        header.append("<td></td><td></td><td></td><td>Schedule of my Class</td>");
         header2.append("<td>Number of lesson</td><td>Teacher</td><td>Lesson</td><td>Comment</td>");
     }
     table.append(header);
     table.append(header2);
 
     let date = new Date(schedule[0].date);
-    var trDate = $("<tr style='background-color:pink'><td></td><td></td><td>" + date.toDateString() + "</td><td></td></tr>");
+    var trDate = $("<tr style='background-color:pink'><td></td><td></td><td></td><td>" + date.toDateString() + "</td></tr>");
     table.append(trDate);
     for (var i = 0; i < schedule.length; i++) {
         var tr = $("<tr></tr>");
@@ -672,7 +672,7 @@ function renderSchedule(forTeacher=false, isATeacher) {
         if (i > 0) {
             let nextDate = new Date(schedule[i].date);
             if (date.toDateString() !== nextDate.toDateString()) {
-                trDate = $("<tr style='background-color:pink'><td></td><td></td><td>" + nextDate.toDateString() + "</td><td></td></tr>");
+                trDate = $("<tr style='background-color:pink'><td></td><td></td><td></td><td>" + nextDate.toDateString() + "</td></tr>");
                 table.append(trDate);
                 date = nextDate;
             }
