@@ -265,7 +265,7 @@ function renderLessonsListToSelection() {
 
 function renderAttendanceTable(i) {
 
-    $(".divText").show();
+    
     $(".divLessonsContainer").hide();
     $(".spanResult").text("");
     lessonId = lessons[i].lessonID;
@@ -279,6 +279,7 @@ function renderAttendanceTable(i) {
                     commentOfLesson = "";
                 }
                 if (data && pupilsToAttendance.length > 0) {
+                    $(".divText").show();
                     renderTable();
                     textArea = $("<textarea id='textarea'></textarea>").addClass("textarea");
                     let hComment = $("<h2>Comment to lesson</h2>");
@@ -298,6 +299,7 @@ function renderAttendanceTable(i) {
 
                 else {
                     $(".spanResult").text("Ooops! Response data is not exists!");
+                    $(".divButtons").append(backButton);
                     return;
                 }
             }
@@ -653,7 +655,7 @@ function renderSchedule(forTeacher=false) {
     var header2 = $("<tr></tr>");
 
     if (forTeacher) {
-        header.append("<td></td><td>My work Schedule</td><td></td><td></td>");
+        header.append("<td></td><td></td><td></td><td>My work Schedule</td>");
         header2.append("<td>Number of lesson</td><td>Class</td><td>Lesson</td><td>Comment</td>");
     }
     else {
