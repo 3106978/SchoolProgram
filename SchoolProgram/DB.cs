@@ -173,8 +173,8 @@ namespace SchoolProgram
                         throw new Exception("Connection is null");
                     conn.Open();
                     string sql = "SELECT Messages.Date, Teachers.Name, Teachers.Surname, Messages.Message " +
-                        "FROM Messages INNER JOIN Teachers ON Messages.UserID = 6 AND Teachers.TeacherID IN " +
-                        "(SELECT TeacherID FROM Messages WHERE UserID = @userID)";
+                        "FROM Messages INNER JOIN Teachers ON Messages.UserID = @userID AND Teachers.TeacherID IN " +
+                        "(SELECT TeacherID FROM Messages WHERE UserID = @userID) ORDER BY Date";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
                     {
                         comm.Add("@userID", userID);
