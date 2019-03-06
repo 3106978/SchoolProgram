@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SchoolDB]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Database [SchoolDB]    Script Date: 3/6/2019 12:01:15 PM ******/
 CREATE DATABASE [SchoolDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -77,7 +77,7 @@ ALTER DATABASE [SchoolDB] SET QUERY_STORE = OFF
 GO
 USE [SchoolDB]
 GO
-/****** Object:  Table [dbo].[Attendance]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Attendance]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -93,7 +93,7 @@ CREATE TABLE [dbo].[Attendance](
 	[Comment] [varchar](500) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Categories]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Categories]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,7 +107,7 @@ CREATE TABLE [dbo].[Categories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Classes]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Classes]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +122,7 @@ CREATE TABLE [dbo].[Classes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Lessons]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Lessons]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,7 +136,7 @@ CREATE TABLE [dbo].[Lessons](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LogsAndPass]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[LogsAndPass]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -154,7 +154,7 @@ CREATE TABLE [dbo].[LogsAndPass](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Messages]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Messages]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,11 +163,11 @@ CREATE TABLE [dbo].[Messages](
 	[Date] [datetime] NOT NULL,
 	[TeacherID] [int] NOT NULL,
 	[PupilID] [int] NOT NULL,
-	[UserID] [int] NOT NULL,
+	[UserIDOfPearent] [int] NOT NULL,
 	[Message] [nvarchar](max) NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Pupils]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Pupils]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -188,7 +188,7 @@ CREATE TABLE [dbo].[Pupils](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Schedule]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Schedule]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -202,7 +202,7 @@ CREATE TABLE [dbo].[Schedule](
 	[TeachersComment] [varchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Teachers]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Teachers]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -221,7 +221,7 @@ CREATE TABLE [dbo].[Teachers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -622,93 +622,101 @@ INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewU
 GO
 SET IDENTITY_INSERT [dbo].[LogsAndPass] OFF
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T03:13:48.000' AS DateTime), 10, 27, 17, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T08:29:02.887' AS DateTime), 10, 52, 48, N'Is at purse tried jokes china ready decay an. Small its shy way had woody downs power. To denoting admitted speaking learning my exercise so in. Procured shutters mr it feelings. To or three offer house begin taken am at. As dissuade cheerful overcame so of friendly he indulged unpacked. Alteration connection to so as collecting me. Difficult in delivered extensive at direction allowance. Alteration put use diminution can considered sentiments interested discretion. An seeing feebly stairs am branch income me unable. ')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-07T21:06:09.000' AS DateTime), 14, 39, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T08:59:54.120' AS DateTime), 10, 63, 93, N'The results must be sorted firstly by the score (stored only in item_no 1 for each user) descending. However any further items created by that user for the seleted term must also be picked up and inserted directly following and in item_no order.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-25T16:58:55.000' AS DateTime), 7, 87, 6, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T09:01:02.167' AS DateTime), 11, 89, 111, N'The results must be sorted firstly by the score (stored only in item_no 1 for each user) descending. However any further items created by that user for the seleted term must also be picked up and inserted directly following and in item_no order.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-04T16:01:53.000' AS DateTime), 8, 71, 5, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T09:03:06.297' AS DateTime), 12, 47, 73, N'The results must be sorted firstly by the score (stored only in item_no 1 for each user) descending. However any further items created by that user for the seleted term must also be picked up and inserted directly following and in item_no order.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-03T21:20:24.000' AS DateTime), 7, 91, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-27T03:13:48.000' AS DateTime), 10, 27, 17, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-04T17:21:42.000' AS DateTime), 12, 103, 14, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T21:06:09.000' AS DateTime), 14, 39, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-18T18:08:43.000' AS DateTime), 7, 89, 6, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-25T16:58:55.000' AS DateTime), 7, 87, 6, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-13T14:22:20.000' AS DateTime), 14, 45, 9, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T16:01:53.000' AS DateTime), 8, 71, 5, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-09T14:29:43.000' AS DateTime), 13, 64, 2, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-03T21:20:24.000' AS DateTime), 7, 91, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-19T04:23:33.000' AS DateTime), 10, 30, 8, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T17:21:42.000' AS DateTime), 12, 103, 14, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-14T16:01:12.000' AS DateTime), 13, 59, 2, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-18T18:08:43.000' AS DateTime), 7, 89, 6, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T18:48:08.000' AS DateTime), 10, 18, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-13T14:22:20.000' AS DateTime), 14, 45, 9, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-14T13:23:20.000' AS DateTime), 14, 44, 9, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-09T14:29:43.000' AS DateTime), 13, 64, 2, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-02T12:15:20.000' AS DateTime), 10, 8, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-19T04:23:33.000' AS DateTime), 10, 30, 8, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-15T08:40:09.000' AS DateTime), 14, 42, 7, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-14T16:01:12.000' AS DateTime), 13, 59, 2, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-14T09:36:08.000' AS DateTime), 12, 100, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T18:48:08.000' AS DateTime), 10, 18, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T08:47:28.000' AS DateTime), 7, 85, 6, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-14T13:23:20.000' AS DateTime), 14, 44, 9, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T18:55:05.000' AS DateTime), 7, 93, 16, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-02T12:15:20.000' AS DateTime), 10, 8, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-18T18:13:51.000' AS DateTime), 12, 95, 16, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-15T08:40:09.000' AS DateTime), 14, 42, 7, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-22T05:08:36.000' AS DateTime), 14, 50, 9, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-14T09:36:08.000' AS DateTime), 12, 100, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-02T21:02:46.000' AS DateTime), 12, 110, 4, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-27T08:47:28.000' AS DateTime), 7, 85, 6, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-04T00:50:32.000' AS DateTime), 12, 108, 4, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-26T18:55:05.000' AS DateTime), 7, 93, 16, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-17T04:40:03.000' AS DateTime), 14, 41, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-18T18:13:51.000' AS DateTime), 12, 95, 16, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-04T17:54:57.000' AS DateTime), 11, 23, 21, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-22T05:08:36.000' AS DateTime), 14, 50, 9, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-07T14:10:41.000' AS DateTime), 10, 29, 17, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-02T21:02:46.000' AS DateTime), 12, 110, 4, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-20T02:48:51.000' AS DateTime), 10, 17, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T00:50:32.000' AS DateTime), 12, 108, 4, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-07T06:00:50.000' AS DateTime), 12, 98, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-17T04:40:03.000' AS DateTime), 14, 41, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T06:00:40.000' AS DateTime), 12, 109, 4, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T17:54:57.000' AS DateTime), 11, 23, 21, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-24T21:23:52.000' AS DateTime), 8, 67, 5, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T14:10:41.000' AS DateTime), 10, 29, 17, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-13T03:09:17.000' AS DateTime), 13, 61, 2, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-20T02:48:51.000' AS DateTime), 10, 17, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T07:10:18.000' AS DateTime), 10, 4, 8, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T06:00:50.000' AS DateTime), 12, 98, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-13T17:19:35.000' AS DateTime), 14, 51, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T06:00:40.000' AS DateTime), 12, 109, 4, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T05:58:34.000' AS DateTime), 12, 96, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-24T21:23:52.000' AS DateTime), 8, 67, 5, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-09T03:48:00.000' AS DateTime), 14, 49, 9, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-13T03:09:17.000' AS DateTime), 13, 61, 2, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-24T17:13:39.000' AS DateTime), 8, 78, 1, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T07:10:18.000' AS DateTime), 10, 4, 8, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-10T05:17:35.000' AS DateTime), 11, 36, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-13T17:19:35.000' AS DateTime), 14, 51, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-16T21:30:39.000' AS DateTime), 14, 43, 9, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T05:58:34.000' AS DateTime), 12, 96, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T02:40:46.000' AS DateTime), 10, 14, 17, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-09T03:48:00.000' AS DateTime), 14, 49, 9, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-07T22:24:31.000' AS DateTime), 10, 12, 17, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-24T17:13:39.000' AS DateTime), 8, 78, 1, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-18T21:48:52.000' AS DateTime), 11, 22, 21, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-10T05:17:35.000' AS DateTime), 11, 36, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-08T07:09:40.000' AS DateTime), 13, 58, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-16T21:30:39.000' AS DateTime), 14, 43, 9, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-07T02:29:48.000' AS DateTime), 13, 54, 13, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-27T02:40:46.000' AS DateTime), 10, 14, 17, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-07T10:43:48.000' AS DateTime), 10, 6, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T22:24:31.000' AS DateTime), 10, 12, 17, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-02T16:19:33.000' AS DateTime), 14, 47, 9, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-18T21:48:52.000' AS DateTime), 11, 22, 21, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-08T07:09:40.000' AS DateTime), 13, 58, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T02:29:48.000' AS DateTime), 13, 54, 13, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T10:43:48.000' AS DateTime), 10, 6, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-02T16:19:33.000' AS DateTime), 14, 47, 9, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
 SET IDENTITY_INSERT [dbo].[Pupils] ON 
 GO
@@ -1004,8 +1012,6 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 12, 2, 8, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 7, 2, 6, NULL)
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 10, 2, 11, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 1, 7, 2, 6, NULL)
@@ -1022,10 +1028,6 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 2, 7, 1, 6, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 4, 13, 1, 11, NULL)
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 4, 6, 2, 7, NULL)
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 2, 12, 2, 10, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 1, 7, 2, 6, NULL)
@@ -1039,8 +1041,6 @@ GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 2, 6, 2, 10, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 3, 12, 2, 8, NULL)
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 4, 7, 2, 6, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 5, 10, 2, 11, N'Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. ')
 GO
@@ -1060,28 +1060,17 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-02' AS Date), 5, 14, 2, 8, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-01' AS Date), 4, 8, 3, 10, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 13, 1, 14, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-01' AS Date), 4, 9, 4, 7, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 5, 15, 1, 14, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 9, 4, 6, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-24' AS Date), 4, 15, 7, 13, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-24' AS Date), 4, 8, 3, 10, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 6, 14, 4, 7, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 5, 12, 5, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-23' AS Date), 5, 7, 7, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 10, 5, 12, N'It as announcing it me stimulated frequently continuing. Least their she you now above going stand forth. He pretty future afraid should genius spirit on. Set property addition building put likewise get. Of will at sell well at as. Too want but tall nay like old. Removing yourself be in answered he. Consider occasion get improved him she eat. Letter by lively oh denote an. 
-')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 14, 3, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
@@ -1111,8 +1100,6 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 14, 3, 12, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 6, 1, 14, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 6, 1, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 9, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
@@ -1124,8 +1111,6 @@ GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 7, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 11, 7, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 10, 6, 10, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 10, 6, 10, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
@@ -1143,17 +1128,7 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 7, 6, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 8, 2, 11, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 14, 3, 12, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 14, 3, 13, NULL)
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 14, 3, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 15, 3, 12, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 6, 1, 13, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 13, 5, 15, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
@@ -1169,10 +1144,6 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 6, 1, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 11, 7, 11, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 13, 5, 15, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 13, 5, 15, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 6, 1, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
@@ -1185,17 +1156,7 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 15, 3, 12, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 15, 3, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 11, 7, 11, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 9, 1, 14, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 10, 6, 10, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 9, 7, 14, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 10, 6, 10, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 13, 5, 15, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
@@ -1203,35 +1164,15 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 15, 3, 15, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 13, 5, 15, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 7, 2, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 7, 6, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 10, 6, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 15, 5, 15, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 6, 1, 14, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 9, 7, 14, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 10, 6, 10, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 11, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 15, 5, 15, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 11, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 8, 2, 11, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 7, 6, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 10, 6, 10, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 7, 2, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 7, 9, 7, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
@@ -1241,8 +1182,6 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 6, 12, 5, 6, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 10, 2, 15, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 7, 4, 10, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 14, 4, 8, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
@@ -1250,8 +1189,6 @@ GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 6, 11, 7, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 7, 4, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 14, 4, 10, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 7, 6, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
@@ -1263,11 +1200,7 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 12, 5, 8, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 11, 7, 13, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 14, 4, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 15, 1, 14, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 7, 9, 7, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
@@ -1275,23 +1208,9 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 15, 1, 12, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 14, 4, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 11, 7, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 7, 4, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 6, 6, 7, NULL)
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 11, 7, 13, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 9, 7, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 4, 14, 4, 10, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 7, 1, 10, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 4, 10, 6, 15, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 6, 6, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
@@ -1339,23 +1258,23 @@ INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (9, N'rikky@gmail.c
 GO
 INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (10, N'rami@gmail.com', CAST(N'2019-03-04T13:59:06.880' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (11, N'shalev@gmail.com', CAST(N'2019-01-06T19:38:15.677' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (11, N'shalev@gmail.com', CAST(N'2019-03-06T10:58:23.933' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (13, N'daniel@gmail.com', CAST(N'2019-01-06T19:39:27.230' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (13, N'daniel@gmail.com', CAST(N'2019-03-06T11:02:19.690' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (14, N'ortal@gmail.com', CAST(N'2019-02-13T11:50:07.740' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (14, N'ortal@gmail.com', CAST(N'2019-03-06T11:10:09.190' AS DateTime))
 GO
 INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (16, N'tanya@mail.com', CAST(N'2019-03-03T23:21:49.013' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (17, N'sagi@gmail.com', CAST(N'2019-02-28T09:38:45.363' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (17, N'sagi@gmail.com', CAST(N'2019-03-06T11:14:02.913' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (21, N'mikky@gmail.com', CAST(N'2019-03-03T18:02:34.440' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (21, N'mikky@gmail.com', CAST(N'2019-03-06T11:40:47.470' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__LogsAndP__5E55825B63B2B780]    Script Date: 3/4/2019 4:02:44 PM ******/
+/****** Object:  Index [UQ__LogsAndP__5E55825B63B2B780]    Script Date: 3/6/2019 12:01:16 PM ******/
 ALTER TABLE [dbo].[LogsAndPass] ADD  CONSTRAINT [UQ__LogsAndP__5E55825B63B2B780] UNIQUE NONCLUSTERED 
 (
 	[Login] ASC
@@ -1390,11 +1309,6 @@ ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Teachers] 
 REFERENCES [dbo].[Teachers] ([TeacherID])
 GO
 ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Teachers]
-GO
-ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[Users] ([UserID])
-GO
-ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Users]
 GO
 ALTER TABLE [dbo].[Pupils]  WITH CHECK ADD  CONSTRAINT [FK_Pupils_Classes] FOREIGN KEY([ClassID])
 REFERENCES [dbo].[Classes] ([ClassID])
