@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SchoolDB]    Script Date: 3/3/2019 8:30:55 PM ******/
+/****** Object:  Database [SchoolDB]    Script Date: 3/6/2019 12:01:15 PM ******/
 CREATE DATABASE [SchoolDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -77,27 +77,7 @@ ALTER DATABASE [SchoolDB] SET QUERY_STORE = OFF
 GO
 USE [SchoolDB]
 GO
-ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = ON;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
-GO
-USE [SchoolDB]
-GO
-/****** Object:  Table [dbo].[Attendance]    Script Date: 3/3/2019 8:30:55 PM ******/
+/****** Object:  Table [dbo].[Attendance]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -113,7 +93,7 @@ CREATE TABLE [dbo].[Attendance](
 	[Comment] [varchar](500) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Categories]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Categories]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -127,7 +107,7 @@ CREATE TABLE [dbo].[Categories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Classes]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Classes]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -142,7 +122,7 @@ CREATE TABLE [dbo].[Classes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Lessons]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Lessons]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -156,7 +136,7 @@ CREATE TABLE [dbo].[Lessons](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LogsAndPass]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[LogsAndPass]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -174,7 +154,7 @@ CREATE TABLE [dbo].[LogsAndPass](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Messages]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Messages]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -183,11 +163,11 @@ CREATE TABLE [dbo].[Messages](
 	[Date] [datetime] NOT NULL,
 	[TeacherID] [int] NOT NULL,
 	[PupilID] [int] NOT NULL,
-	[UserID] [int] NOT NULL,
+	[UserIDOfPearent] [int] NOT NULL,
 	[Message] [nvarchar](max) NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Pupils]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Pupils]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -208,7 +188,7 @@ CREATE TABLE [dbo].[Pupils](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Schedule]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Schedule]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -222,7 +202,7 @@ CREATE TABLE [dbo].[Schedule](
 	[TeachersComment] [varchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Teachers]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Teachers]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +221,7 @@ CREATE TABLE [dbo].[Teachers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 3/6/2019 12:01:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +236,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2012-02-05' AS Date), 6, 1, 1, 7, 1, 1, N'good')
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 1, 1, 7, 5, 1, N'Good work')
 GO
 INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 6, 1, 6, 2, 5, N'good work')
 GO
@@ -283,6 +263,34 @@ GO
 INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 32, 1, 6, 2, 5, N'')
 GO
 INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-25' AS Date), 10, 33, 1, 6, 2, 5, N'')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 2, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 4, 0, 7, 5, 1, N'Absence')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 9, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 12, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 13, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 14, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 15, 0, 7, 5, 1, N'Absence')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 16, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 17, 1, 7, 5, 1, N'')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 18, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 19, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 20, 1, 7, 5, 1, N'Good work')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 40, 0, 7, 5, 1, N'Absence')
+GO
+INSERT [dbo].[Attendance] ([Date], [LessonID], [PupilID], [Presence], [TeacherID], [ClassID], [NumberOfLesson], [Comment]) VALUES (CAST(N'2019-02-28' AS Date), 10, 44, 1, 7, 5, 1, N'')
 GO
 INSERT [dbo].[Categories] ([CategoryID], [CategoryName]) VALUES (1, N'Hebrew')
 GO
@@ -412,90 +420,344 @@ INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewU
 GO
 INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (40, N'vincente', N'123asd', 0, 1, 0)
 GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (41, N'AJGLGT', N'wvu808gr1807ruc', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (42, N'NBXX', N'ob3du3477fi', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (43, N'VPXNLZ', N'id84gq191kr', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (44, N'HNXW', N'jdm40pf35eye', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (45, N'HWMUS', N'wv6zw7uzu', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (46, N'WVGBWH', N'qn778nue7om', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (47, N'DPYES', N'eu31nu05mr', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (48, N'MMHB', N'xo86cqw5ypr', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (49, N'KASYH', N'dn25xb22mkl', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (50, N'DXPE', N'eey5dhk6gwp', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (51, N'PWPUMV', N'nb6xjp7yh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (52, N'LWOCFB', N'ysk6ta43os', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (53, N'DKPQ', N'byi7udl2pj', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (54, N'RZJU', N'ejd4jot1lxy', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (55, N'BUJL', N'wn421lvp2ik', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (56, N'EBJEAD', N'rr05efl1jk', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (57, N'JCNMLN', N'lc1xo5331uy', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (58, N'HYMBHQ', N'qec9bj6qqe', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (59, N'OXJSD', N'vm3bpu1408pn', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (60, N'FCJR', N'qf3869bjs41fax', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (61, N'NUMJMY', N'tn06vi844ymw', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (62, N'GKJPS', N'bwn42bgh790kp', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (63, N'TASYQX', N'sr24wd78us', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (64, N'GBLD', N'ak5bt9257rt', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (65, N'DRBMH', N'see5827fd10ln', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (66, N'EOWLR', N'ccu3hid81chh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (67, N'VOAWB', N'igp58nu448uye', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (68, N'YETXAX', N'jmj2kjc806hrg', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (69, N'JFJMV', N'ptt5cq86wsm', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (70, N'SYIO', N'im377ix7ieu', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (71, N'RPGV', N'obk83fu3xv', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (72, N'MDBHLX', N'ef5ipy57ttk', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (73, N'TBJLM', N'wk65ti3vw', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (74, N'RPQEI', N'ks216ruz7gb', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (75, N'MSWIFJ', N'xz6fv1mf', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (76, N'LEVN', N'ow1mjc6ohb', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (77, N'PMVED', N'apy7yxm34vmi', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (78, N'NITP', N'dem211cc8muk', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (79, N'LCQD', N'eoy60krg3lc', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (80, N'MOCK', N'dos4563hq7748lh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (81, N'IXOOXG', N'lx6797qjr1hyd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (82, N'YPGWPJ', N'afx5236wwx757fo', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (83, N'EXQCBX', N'ku9cp5st', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (84, N'CFEEHE', N'wk6ahd0555rmb', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (85, N'ZWLJHT', N'woy1477ur95bed', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (86, N'AIIMC', N'jng1ys3vge', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (87, N'AEBV', N'bh8tgq8ub', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (88, N'BWUEM', N'lbe8qcj8nej', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (89, N'KXHYH', N'ghl740szc0123agw', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (90, N'KVTFIY', N'eyp9bu6755tmj', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (91, N'NVTMUJ', N'ofv1ec3zbv', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (92, N'FLXTT', N'jb4erk27kr', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (93, N'VZASOL', N'axd73xhi02ji', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (94, N'FDWS', N'gzy8zj44nnp', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (95, N'MTGG', N'it8rbn874bix', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (96, N'DDUNT', N'ps8ud7wy', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (97, N'JQAP', N'hvj3yb5shv', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (98, N'KUZSUR', N'okp5386bcg3xt', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (99, N'TLQOO', N'tyt541lz2544lh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (100, N'AEMH', N'xa3hd454vo', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (101, N'BIOZ', N'qgd6ev5iw', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (102, N'MIPOGF', N'sed8zot574oux', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (103, N'CWQEQ', N'bc8sqm12ro', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (104, N'CWRIZ', N'zf371fpv8pl', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (105, N'UQSO', N'ur083lbp5pl', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (106, N'XMZVIY', N'mj7zrz5cj', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (107, N'TEAPX', N'ueu3bvo180gdn', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (108, N'NKMPFD', N'lz14mio4xvl', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (109, N'KBOIE', N'me3bk1qxb', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (110, N'LDZPAN', N'nbv1rmy6oh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (111, N'OOCF', N'lcy7hi2072nkn', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (112, N'EAPZQ', N'fbj0czx34etp', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (113, N'AHBAYD', N'ud36lqn3ebv', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (114, N'WTLVF', N'qo876nw2jpi', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (115, N'JELK', N'ost6683pg3uf', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (116, N'ZEFC', N'yh192wcq4qdd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (117, N'HNVJC', N'hgq34ui6yds', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (118, N'LCTTNS', N'erk5qq78cd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (119, N'CMZHY', N'bhf8146mc8qvi', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (120, N'XOJT', N'hmn2142rn2149gly', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (121, N'NTXF', N'nu833lk12wnh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (122, N'EGCVIV', N'lx3bzg5ns', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (123, N'ZGLQK', N'ww67gfr3cgo', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (124, N'SDKWM', N'xm7on2koh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (125, N'BIUY', N'nuu5hl5ql', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (126, N'NFRJJ', N'nyo2bg4kd', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (127, N'TCUTIK', N'too2506uhr4eo', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (128, N'QZLD', N'ydn2gp282mwe', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (129, N'DMDH', N'ode052km4pr', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (130, N'BMSJA', N'xx54hz15vet', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (131, N'NIIHMH', N'red23jf25cz', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (132, N'BQQVWM', N'yff8jvq9ieo', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (133, N'YMOKXY', N'bm484nf80mb', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (134, N'NYPV', N'dni4mi20mo', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (135, N'ZGWMBJ', N'lqc8fqq5xzh', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (136, N'WBIQ', N'btw1ger8hph', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (137, N'JVHA', N'ro45on6ces', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (138, N'SGOPQ', N'km6bg372fnl', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (139, N'ULLOBS', N'wc2553uh4gw', 0, 1, 0)
+GO
+INSERT [dbo].[LogsAndPass] ([UserID], [Login], [Password], [IsATeacher], [IsNewUser], [IsAdmin]) VALUES (140, N'ROQKSA', N'guc383ql8ior', 0, 1, 0)
+GO
 SET IDENTITY_INSERT [dbo].[LogsAndPass] OFF
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:40:17.070' AS DateTime), 6, 9, 6, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T08:29:02.887' AS DateTime), 10, 52, 48, N'Is at purse tried jokes china ready decay an. Small its shy way had woody downs power. To denoting admitted speaking learning my exercise so in. Procured shutters mr it feelings. To or three offer house begin taken am at. As dissuade cheerful overcame so of friendly he indulged unpacked. Alteration connection to so as collecting me. Difficult in delivered extensive at direction allowance. Alteration put use diminution can considered sentiments interested discretion. An seeing feebly stairs am branch income me unable. ')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:44:48.803' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T08:59:54.120' AS DateTime), 10, 63, 93, N'The results must be sorted firstly by the score (stored only in item_no 1 for each user) descending. However any further items created by that user for the seleted term must also be picked up and inserted directly following and in item_no order.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:46:00.923' AS DateTime), 6, 1, 1, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T09:01:02.167' AS DateTime), 11, 89, 111, N'The results must be sorted firstly by the score (stored only in item_no 1 for each user) descending. However any further items created by that user for the seleted term must also be picked up and inserted directly following and in item_no order.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:48:03.997' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-06T09:03:06.297' AS DateTime), 12, 47, 73, N'The results must be sorted firstly by the score (stored only in item_no 1 for each user) descending. However any further items created by that user for the seleted term must also be picked up and inserted directly following and in item_no order.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T17:49:42.027' AS DateTime), 6, 9, 6, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-27T03:13:48.000' AS DateTime), 10, 27, 17, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T21:07:39.927' AS DateTime), 6, 1, 1, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T21:06:09.000' AS DateTime), 14, 39, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T21:12:40.760' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-25T16:58:55.000' AS DateTime), 7, 87, 6, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T22:33:24.547' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T16:01:53.000' AS DateTime), 8, 71, 5, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-26T22:33:43.617' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-03T21:20:24.000' AS DateTime), 7, 91, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T09:33:24.227' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T17:21:42.000' AS DateTime), 12, 103, 14, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T10:13:32.677' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-18T18:08:43.000' AS DateTime), 7, 89, 6, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T13:49:57.287' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-13T14:22:20.000' AS DateTime), 14, 45, 9, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T20:27:51.897' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-09T14:29:43.000' AS DateTime), 13, 64, 2, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-28T20:40:16.570' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-19T04:23:33.000' AS DateTime), 10, 30, 8, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-03T16:44:53.867' AS DateTime), 6, 9, 6, N'Greatly hearted has who believe. Drift allow green son walls years for blush. Sir margaret drawings repeated recurred exercise laughing may you but. Do repeated whatever to welcomed absolute no. Fat surprise although outlived and informed shy dissuade property. Musical by me through he drawing savings an. No we stand avoid decay heard mr. Common so wicket appear to sudden worthy on. Shade of offer ye whole stood hoped. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-14T16:01:12.000' AS DateTime), 13, 59, 2, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T07:45:19.907' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T18:48:08.000' AS DateTime), 10, 18, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-02-27T09:20:00.780' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-14T13:23:20.000' AS DateTime), 14, 44, 9, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T15:32:25.937' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-02T12:15:20.000' AS DateTime), 10, 8, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T15:34:14.787' AS DateTime), 6, 2, 2, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-15T08:40:09.000' AS DateTime), 14, 42, 7, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-01T15:35:50.057' AS DateTime), 6, 4, 5, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-14T09:36:08.000' AS DateTime), 12, 100, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
 GO
-INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserID], [Message]) VALUES (CAST(N'2019-03-03T14:55:02.817' AS DateTime), 6, 1, 1, N'Paid was hill sir high. For him precaution any advantages dissimilar comparison few terminated projecting. Prevailed discovery immediate objection of ye at. ')
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-27T08:47:28.000' AS DateTime), 7, 85, 6, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-26T18:55:05.000' AS DateTime), 7, 93, 16, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-18T18:13:51.000' AS DateTime), 12, 95, 16, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-22T05:08:36.000' AS DateTime), 14, 50, 9, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-02T21:02:46.000' AS DateTime), 12, 110, 4, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T00:50:32.000' AS DateTime), 12, 108, 4, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-17T04:40:03.000' AS DateTime), 14, 41, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-04T17:54:57.000' AS DateTime), 11, 23, 21, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T14:10:41.000' AS DateTime), 10, 29, 17, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-20T02:48:51.000' AS DateTime), 10, 17, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T06:00:50.000' AS DateTime), 12, 98, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T06:00:40.000' AS DateTime), 12, 109, 4, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-24T21:23:52.000' AS DateTime), 8, 67, 5, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-13T03:09:17.000' AS DateTime), 13, 61, 2, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T07:10:18.000' AS DateTime), 10, 4, 8, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-13T17:19:35.000' AS DateTime), 14, 51, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-03-01T05:58:34.000' AS DateTime), 12, 96, 16, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-09T03:48:00.000' AS DateTime), 14, 49, 9, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-24T17:13:39.000' AS DateTime), 8, 78, 1, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-10T05:17:35.000' AS DateTime), 11, 36, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-16T21:30:39.000' AS DateTime), 14, 43, 9, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-27T02:40:46.000' AS DateTime), 10, 14, 17, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T22:24:31.000' AS DateTime), 10, 12, 17, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-18T21:48:52.000' AS DateTime), 11, 22, 21, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-08T07:09:40.000' AS DateTime), 13, 58, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T02:29:48.000' AS DateTime), 13, 54, 13, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-07T10:43:48.000' AS DateTime), 10, 6, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Messages] ([Date], [TeacherID], [PupilID], [UserIDOfPearent], [Message]) VALUES (CAST(N'2019-02-02T16:19:33.000' AS DateTime), 14, 47, 9, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
 GO
 SET IDENTITY_INSERT [dbo].[Pupils] ON 
 GO
-INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (1, N'Grant', N'Pogosin', CAST(N'2011-12-11' AS Date), N'059-4875263', N'Petah Tikwa, Hertsel str., 11/1', 1, 6, 1)
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (1, N'Grant', N'Pogosin', CAST(N'2011-12-11' AS Date), N'059-4875263', N'Petah Tikwa, Hertsel str., 11/1', 5, 6, 1)
 GO
-INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (2, N'Karin', N'Flash', CAST(N'2012-05-25' AS Date), N'053-4582794', N'Petah Tikwa, Walfson str., 4/16', 1, 6, 2)
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (2, N'Karin', N'Flash', CAST(N'2012-05-25' AS Date), N'053-4582794', N'Petah Tikwa, Walfson str., 4/16', 5, 6, 2)
 GO
-INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (4, N'Elis', N'Apshtein', CAST(N'2012-10-20' AS Date), N'052-4578215', N'PetahTikwa, Socolov str., 45/8', 1, 6, 5)
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (4, N'Elis', N'Apshtein', CAST(N'2012-10-20' AS Date), N'052-4578215', N'PetahTikwa, Socolov str., 45/8', 5, 6, 5)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (6, N'Topaz', N'Katron', CAST(N'2012-02-21' AS Date), N'050-4586789', N'Petah Tikwa, Walfson str., 4/16', 2, 8, 7)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (8, N'Eshay', N'Zehavi', CAST(N'2012-05-07' AS Date), N'050-1274589', N'Petah Tikwa, Walfson str., 4/16', 2, 8, 9)
 GO
-INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (9, N'Mika', N'Onsay', CAST(N'2012-05-12' AS Date), N'050-4785415', N'Petah Tikwa, Hertsel str., 11/1', 1, 6, 6)
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (9, N'Mika', N'Onsay', CAST(N'2012-05-12' AS Date), N'050-4785415', N'Petah Tikwa, Hertsel str., 11/1', 5, 6, 6)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (12, N'Tony', N'Barnes', CAST(N'2012-03-30' AS Date), N'394-1068-14
-', N'Petah Tikwa', 1, 6, 16)
+', N'Petah Tikwa', 5, 6, 16)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (13, N'Julia', N'Hall', CAST(N'2012-05-15' AS Date), N'237-4337-46
-', N'Petah Tikwa', 1, 6, 22)
+', N'Petah Tikwa', 5, 6, 22)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (14, N'Antony', N'Armstrong', CAST(N'2012-03-18' AS Date), N'864-8367-21
-', N'Petah Tikwa', 1, 6, 23)
+', N'Petah Tikwa', 5, 6, 23)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (15, N'Fiona', N'Evanse', CAST(N'2012-07-12' AS Date), N'153-2567-40
-', N'Petah Tikwa', 1, 6, 24)
+', N'Petah Tikwa', 5, 6, 24)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (16, N'Vanessa', N'Hall', CAST(N'2012-04-19' AS Date), N'656-1277-23
-', N'Petah Tikwa', 1, 6, 25)
+', N'Petah Tikwa', 5, 6, 25)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (17, N'Cadie', N'Scott', CAST(N'2012-01-03' AS Date), N'015-5963-05
-', N'Petah Tikwa', 1, 6, 26)
+', N'Petah Tikwa', 5, 6, 26)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (18, N'Melissa', N'Craige', CAST(N'2012-08-07' AS Date), N'076-9912-16
-', N'Petah Tikwa', 1, 6, 27)
+', N'Petah Tikwa', 5, 6, 27)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (19, N'Brooke', N'Payne', CAST(N'2012-03-04' AS Date), N'222-8252-01
-', N'Petah Tikwa', 1, 6, 28)
+', N'Petah Tikwa', 5, 6, 28)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (20, N'Kristen', N'Perry', CAST(N'2012-04-15' AS Date), N'315-2730-92
-', N'Petah Tikwa', 1, 6, 29)
+', N'Petah Tikwa', 5, 6, 29)
 GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (22, N'Elise', N'Kelley', CAST(N'2012-08-19' AS Date), N'126-9127-09
 ', N'Petah Tikwa', 2, 8, 30)
@@ -530,6 +792,206 @@ GO
 INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (33, N'Vanessa', N'Fowler', CAST(N'2012-08-04' AS Date), N'763-0623-67
 ', N'Petah tikwa', 2, 8, 40)
 GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (34, N'Ramon', N'Reyes', CAST(N'2012-05-14' AS Date), N'228-414-4113', N'1 Main Street North', 2, 12, 100)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (35, N'Brooklyn', N'Foster', CAST(N'2012-05-14' AS Date), N'402-572-5533', N'59 Madison Avenue', 7, 10, 136)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (36, N'Sarah', N'Morris', CAST(N'2012-03-14' AS Date), N'207-815-7377', N'182 Franklin Street', 4, 13, 129)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (37, N'Grace', N'Jones', CAST(N'2012-05-03' AS Date), N'412-828-2823', N'82 4th Street West', 2, 12, 81)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (38, N'Roland', N'Williams', CAST(N'2012-05-14' AS Date), N'314-238-5257', N'130 Jefferson Street', 3, 6, 68)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (39, N'Charlie', N'Perez', CAST(N'2012-05-14' AS Date), N'234-537-6463', N'13 Pleasant Street', 1, 10, 75)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (40, N'Francisco', N'Morales', CAST(N'2012-05-14' AS Date), N'414-782-3562', N'66 Locust Street', 5, 10, 105)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (41, N'Isabelle', N'Hernandez', CAST(N'2012-05-14' AS Date), N'302-721-4315', N'177 Elm Street', 3, 6, 118)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (42, N'Allison', N'Baker', CAST(N'2012-05-14' AS Date), N'204-836-2445', N'134 5th Avenue', 3, 6, 104)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (43, N'Paisley', N'Brooks', CAST(N'2012-05-14' AS Date), N'304-487-0327', N'203 River Road', 3, 6, 57)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (44, N'Jaime', N'Garcia', CAST(N'2012-05-14' AS Date), N'301-711-7432', N'45 9th Street', 5, 14, 41)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (45, N'Keith', N'Bennett', CAST(N'2012-05-14' AS Date), N'319-851-8751', N'53 Main Street South', 4, 13, 98)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (46, N'Benjamin', N'Hill', CAST(N'2012-05-14' AS Date), N'217-961-9184', N'220 Park Avenue', 2, 12, 55)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (47, N'Robert', N'Diaz', CAST(N'2012-05-14' AS Date), N'208-554-6756', N'219 Pennsylvania Avenue', 2, 12, 73)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (48, N'Phillip', N'Gray', CAST(N'2012-05-14' AS Date), N'345-397-8411', N'57 Hickory Lane', 1, 14, 3)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (49, N'Zoe', N'Torres', CAST(N'2012-05-14' AS Date), N'205-893-3144', N'76 Lincoln Avenue', 3, 6, 18)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (50, N'Makayla', N'Wood', CAST(N'2012-05-14' AS Date), N'264-555-9476', N'185 Highland Avenue', 1, 14, 58)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (51, N'Barry', N'Hall', CAST(N'2012-05-14' AS Date), N'206-758-4377', N'154 Spruce Street', 7, 10, 108)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (52, N'Julian', N'Green', CAST(N'2012-05-14' AS Date), N'219-215-4444', N'116 3rd Street', 1, 10, 48)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (53, N'Nicholas', N'Thompson', CAST(N'2012-05-14' AS Date), N'251-479-8175', N'151 Adams Street', 2, 14, 112)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (54, N'Darryl', N'Carter', CAST(N'2012-05-14' AS Date), N'225-215-7547', N'86 2nd Street', 4, 13, 125)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (55, N'Dan', N'Stewart', CAST(N'2012-05-14' AS Date), N'260-888-4763', N'152 Route 1', 6, 6, 51)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (56, N'Jesse', N'White', CAST(N'2012-05-14' AS Date), N'270-542-3268', N'114 Mill Street', 1, 14, 97)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (57, N'Lila', N'Young', CAST(N'2012-05-14' AS Date), N'405-561-0941', N'219 Oak Street', 3, 6, 20)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (58, N'Andy', N'Brown', CAST(N'2012-05-14' AS Date), N'361-982-4643', N'201 New Street', 7, 7, 133)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (59, N'Arianna', N'Long', CAST(N'2012-05-14' AS Date), N'321-356-5227', N'88 Washington Avenue', 1, 10, 107)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (60, N'Nelson', N'Davis', CAST(N'2012-05-14' AS Date), N'213-935-4711', N'59 Hillside Avenue', 6, 11, 12)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (61, N'Salvador', N'Rogers', CAST(N'2012-05-14' AS Date), N'416-566-8446', N'38 11th Street', 6, 11, 139)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (62, N'Larry', N'Phillips', CAST(N'2012-05-14' AS Date), N'415-833-8324', N'181 Academy Street', 7, 10, 90)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (63, N'Camilla', N'Miller', CAST(N'2012-05-14' AS Date), N'325-645-8933', N'155 3rd Street West', 7, 10, 93)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (64, N'Franklin', N'Cook', CAST(N'2012-05-14' AS Date), N'316-461-7956', N'191 Church Street', 1, 14, 82)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (65, N'Joel', N'Peterson', CAST(N'2012-05-14' AS Date), N'242-437-2155', N'159 1st Avenue', 2, 12, 67)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (66, N'Keira', N'Ross', CAST(N'2012-05-14' AS Date), N'340-233-4222', N'157 Madison Street', 3, 6, 77)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (67, N'Jerome', N'Johnson', CAST(N'2012-05-14' AS Date), N'268-226-6656', N'16 Monroe Street', 2, 12, 45)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (68, N'Jacob', N'Richardson', CAST(N'2012-05-14' AS Date), N'248-331-5368', N'226 Delaware Avenue', 6, 6, 71)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (69, N'Peter', N'Reed', CAST(N'2012-05-14' AS Date), N'410-862-3484', N'48 School Street', 3, 7, 21)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (70, N'Marion', N'Wright', CAST(N'2012-05-14' AS Date), N'284-955-5422', N'217 South Street', 2, 12, 114)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (71, N'Ruben', N'Collins', CAST(N'2012-05-14' AS Date), N'229-552-1403', N'176 Washington Street', 1, 14, 52)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (72, N'Armando', N'Nguyen', CAST(N'2012-05-14' AS Date), N'253-363-2143', N'218 Vine Street', 2, 14, 11)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (73, N'Stella', N'Rivera', CAST(N'2012-05-14' AS Date), N'351-571-5171', N'51 Main Street East', 2, 12, 78)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (74, N'Aria', N'Cruz', CAST(N'2012-05-14' AS Date), N'203-238-5221', N'26 5th Street', 2, 12, 126)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (75, N'Ellie', N'Martin', CAST(N'2012-05-14' AS Date), N'202-832-6542', N'205 Prospect Street', 4, 13, 91)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (76, N'Hailey', N'Anderson', CAST(N'2012-05-14' AS Date), N'339-931-4005', N'204 Market Street', 1, 14, 86)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (77, N'Edward', N'Russell', CAST(N'2012-05-14' AS Date), N'215-414-5344', N'227 Cherry Street', 4, 13, 115)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (78, N'Bobby', N'Murphy', CAST(N'2012-05-14' AS Date), N'240-966-1888', N'157 Lincoln Street', 7, 7, 134)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (79, N'Mackenzie', N'Cooper', CAST(N'2012-05-14' AS Date), N'308-384-6639', N'60 6th Street', 3, 6, 106)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (80, N'Ernest', N'Gonzalez', CAST(N'2012-05-14' AS Date), N'401-514-4540', N'92 Jackson Street', 7, 10, 44)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (81, N'Casey', N'Roberts', CAST(N'2012-05-14' AS Date), N'313-903-9521', N'98 Broadway', 4, 13, 137)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (82, N'Kaitlyn', N'Sanders', CAST(N'2012-05-14' AS Date), N'212-937-9309', N'27 College Street', 6, 11, 121)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (83, N'Jerry', N'Ramirez', CAST(N'2012-05-14' AS Date), N'337-665-7333', N'213 Liberty Street', 6, 6, 15)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (84, N'Vivian', N'Wilson', CAST(N'2012-05-14' AS Date), N'386-665-3761', N'23 Brookside Drive', 1, 14, 63)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (85, N'Claude', N'Jenkins', CAST(N'2012-05-14' AS Date), N'281-388-0529', N'161 Virginia Avenue', 7, 7, 124)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (86, N'Ella', N'Taylor', CAST(N'2012-05-14' AS Date), N'250-456-7120', N'211 Water Street', 4, 13, 87)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (87, N'Rodney', N'Campbell', CAST(N'2012-05-14' AS Date), N'318-747-6245', N'216 North Street', 4, 13, 46)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (88, N'Bob', N'Fisher', CAST(N'2012-05-14' AS Date), N'336-748-6704', N'6 Railroad Street', 1, 14, 60)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (89, N'Perry', N'Howard', CAST(N'2012-05-14' AS Date), N'417-948-4658', N'138 2nd Avenue', 6, 11, 111)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (90, N'Savannah', N'Powell', CAST(N'2012-05-14' AS Date), N'404-424-3859', N'202 Green Street', 6, 11, 65)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (91, N'Lillian', N'Jackson', CAST(N'2012-05-14' AS Date), N'413-336-6358', N'99 State Street', 3, 7, 53)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (92, N'Olivia', N'Clark', CAST(N'2012-05-14' AS Date), N'303-533-7451', N'7 Walnut Street', 2, 12, 70)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (93, N'Alex', N'Turner', CAST(N'2012-05-14' AS Date), N'403-934-7507', N'34 Union Street', 1, 14, 135)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (94, N'Juan', N'Thomas', CAST(N'2012-05-14' AS Date), N'423-479-8561', N'207 Broad Street', 2, 12, 64)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (95, N'Dustin', N'Sanchez', CAST(N'2012-05-14' AS Date), N'276-282-4845', N'53 Chestnut Street', 4, 13, 66)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (96, N'Raul', N'Barnes', CAST(N'2012-05-14' AS Date), N'246-856-4877', N'51 Charles Street', 2, 12, 109)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (97, N'Avery', N'Gutierrez', CAST(N'2012-05-14' AS Date), N'262-710-2805', N'37 River Street', 7, 7, 72)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (98, N'Clifton', N'Gomez', CAST(N'2012-05-14' AS Date), N'216-776-8166', N'126 West Street', 1, 10, 102)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (99, N'Darrell', N'Hughes', CAST(N'2012-05-14' AS Date), N'218-855-8218', N'127 Central Avenue', 6, 11, 59)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (100, N'Javier', N'Nelson', CAST(N'2012-05-14' AS Date), N'347-381-6478', N'152 10th Street', 7, 10, 14)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (101, N'Jesus', N'Cox', CAST(N'2012-05-14' AS Date), N'239-398-5778', N'217 Route 30', 6, 11, 113)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (102, N'Matthew', N'Rodriguez', CAST(N'2012-05-14' AS Date), N'256-235-6722', N'47 Cedar Street', 3, 7, 69)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (103, N'Douglas', N'Mitchell', CAST(N'2012-05-14' AS Date), N'252-671-7043', N'56 4th Street', 6, 11, 42)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (104, N'Joseph', N'Robinson', CAST(N'2012-05-14' AS Date), N'306-835-1372', N'142 Main Street West', 3, 7, 31)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (105, N'Victoria', N'Bailey', CAST(N'2012-05-14' AS Date), N'267-833-8252', N'84 Clinton Street', 4, 13, 131)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (106, N'Eric', N'Watson', CAST(N'2012-05-14' AS Date), N'210-217-8457', N'11 Church Road', 2, 12, 138)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (107, N'Clinton', N'Evans', CAST(N'2012-05-14' AS Date), N'309-353-9262', N'69 Grove Street', 2, 12, 79)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (108, N'Jorge', N'Morgan', CAST(N'2012-05-14' AS Date), N'409-214-3324', N'66 Elizabeth Street', 2, 13, 76)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (109, N'Roberto', N'Harris', CAST(N'2012-05-14' AS Date), N'330-734-9519', N'165 Park Street', 7, 7, 88)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (110, N'Hannah', N'Lewis', CAST(N'2012-05-14' AS Date), N'209-642-9114', N'91 Maple Street', 4, 13, 10)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (111, N'Ken', N'Edwards', CAST(N'2012-05-14' AS Date), N'231-444-6236', N'102 Center Street', 4, 13, 130)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (112, N'Natalie', N'Myers', CAST(N'2012-05-14' AS Date), N'323-424-4224', N'215 Pearl Street', 3, 7, 127)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (113, N'Mark', N'Ward', CAST(N'2012-05-14' AS Date), N'360-858-3464', N'104 7th Street', 3, 6, 92)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (114, N'Ian', N'Price', CAST(N'2012-05-14' AS Date), N'317-888-8815', N'199 Court Street', 6, 11, 140)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (115, N'Dwayne', N'Parker', CAST(N'2012-05-14' AS Date), N'315-501-1248', N'39 Main Street', 6, 11, 50)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (116, N'Kevin', N'Ortiz', CAST(N'2012-05-14' AS Date), N'254-602-1397', N'206 Hill Street', 4, 13, 74)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (117, N'Ronnie', N'Sullivan', CAST(N'2012-05-14' AS Date), N'289-581-5658', N'148 Meadow Lane', 4, 13, 119)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (118, N'Marvin', N'Scott', CAST(N'2012-05-14' AS Date), N'305-868-1477', N'100 3rd Avenue', 1, 14, 132)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (119, N'Lauren', N'Smith', CAST(N'2012-05-14' AS Date), N'269-658-6534', N'92 Ridge Road', 7, 10, 117)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (120, N'Lawrence', N'Bell', CAST(N'2012-05-14' AS Date), N'334-967-6569', N'56 12th Street', 6, 11, 19)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (121, N'Erik', N'James', CAST(N'2012-05-14' AS Date), N'307-681-7717', N'168 Front Street', 7, 7, 4)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (122, N'Emily', N'Perry', CAST(N'2012-05-14' AS Date), N'214-850-3864', N'208 Pine Street', 4, 13, 96)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (123, N'Kenneth', N'Moore', CAST(N'2012-05-14' AS Date), N'408-893-7257', N'60 Jefferson Avenue', 7, 7, 89)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (124, N'Gilbert', N'Butler', CAST(N'2012-05-14' AS Date), N'418-753-2449', N'204 Spring Street', 1, 14, 61)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (125, N'Kylie', N'Flores', CAST(N'2012-05-14' AS Date), N'201-662-1822', N'3 Bridge Street', 3, 6, 47)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (126, N'Charlotte', N'Lopez', CAST(N'2012-05-14' AS Date), N'406-315-6067', N'197 Maple Avenue', 3, 7, 99)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (127, N'Christopher', N'Kelly', CAST(N'2012-05-14' AS Date), N'312-440-0667', N'14 East Street', 6, 11, 13)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (128, N'Johnnie', N'Lee', CAST(N'2012-05-14' AS Date), N'310-624-0322', N'212 Prospect Avenue', 6, 11, 116)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (129, N'Julia', N'Adams', CAST(N'2012-05-14' AS Date), N'352-751-5058', N'163 Dogwood Drive', 3, 6, 94)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (130, N'Gordon', N'Allen', CAST(N'2012-05-14' AS Date), N'224-585-6374', N'112 1st Street', 7, 10, 17)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (131, N'Aaliyah', N'Martinez', CAST(N'2012-05-14' AS Date), N'320-526-7435', N'214 High Street', 7, 10, 122)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (132, N'Jose', N'King', CAST(N'2012-05-14' AS Date), N'407-557-6687', N'193 Park Place', 6, 11, 110)
+GO
+INSERT [dbo].[Pupils] ([PupilID], [Name], [Surname], [DateOfBirth], [PhoneNumber], [Address], [ClassID], [TeacherID], [UserID]) VALUES (133, N'Ray', N'Walker', CAST(N'2012-05-14' AS Date), N'419-518-0053', N'25 Winding Way', 7, 7, 84)
+GO
 SET IDENTITY_INSERT [dbo].[Pupils] OFF
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 1, 6, 1, 7, NULL)
@@ -550,8 +1012,6 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 12, 2, 8, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 4, 7, 2, 6, NULL)
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 10, 2, 11, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 1, 7, 2, 6, NULL)
@@ -568,15 +1028,13 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 2, 7, 1, 6, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 4, 13, 1, 11, NULL)
-GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 4, 6, 2, 7, NULL)
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 2, 12, 2, 10, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 1, 7, 2, 6, NULL)
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 3, 12, 2, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-23' AS Date), 6, 12, 5, 12, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 1, 13, 2, 13, NULL)
 GO
@@ -584,9 +1042,179 @@ INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [Tea
 GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 3, 12, 2, 8, NULL)
 GO
-INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 4, 7, 2, 6, NULL)
-GO
 INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 5, 10, 2, 11, N'Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. ')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 6, 6, 2, 8, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 5, 10, 3, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 9, 4, 6, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-03' AS Date), 3, 13, 1, 14, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 6, 7, 7, 13, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 6, 2, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-24' AS Date), 5, 9, 4, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-02' AS Date), 5, 14, 2, 8, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 13, 1, 14, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-25' AS Date), 5, 15, 1, 14, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 9, 4, 6, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 6, 14, 4, 7, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-03-04' AS Date), 5, 12, 5, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-23' AS Date), 5, 7, 7, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 14, 3, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 11, 7, 8, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 13, 5, 15, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 15, 3, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 7, 2, 7, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 9, 1, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 9, 1, 14, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 8, 2, 11, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 8, 2, 11, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 8, 2, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 6, 1, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 13, 5, 15, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 14, 3, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 14, 3, 12, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 6, 1, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 9, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 14, 3, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 13, 5, 15, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 7, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 11, 7, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 10, 6, 10, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 9, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 9, 7, 14, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 6, 1, 14, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 15, 3, 12, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 7, 2, 7, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 15, 3, 12, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 7, 6, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 14, 3, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 13, 5, 15, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 11, 7, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 8, 2, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 9, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 15, 5, 15, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 7, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 1, 6, 1, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 3, 13, 5, 15, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 2, 6, 1, 13, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 10, 6, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 7, 6, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 14, 3, 12, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 6, 15, 3, 12, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 11, 7, 11, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 13, 5, 15, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 15, 3, 12, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 15, 3, 15, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 6, 1, 14, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 9, 7, 14, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 11, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 11, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 7, 6, 7, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 7, 9, 7, 8, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 5, 10, 6, 10, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 11, 7, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 6, 12, 5, 6, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 1, 7, 4, 10, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 2, 14, 4, 8, N'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 6, 11, 7, 13, N'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 3, 7, 4, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 7, 6, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 1, 14, 4, 10, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 9, 5, 6, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 12, 4, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 12, 5, 8, NULL)
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 2, 14, 4, 8, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 7, 9, 7, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 5, 14, 4, 8, N'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-27' AS Date), 6, 15, 1, 12, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 3, 7, 4, 10, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-26' AS Date), 5, 9, 7, 13, N'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 6, 6, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
+GO
+INSERT [dbo].[Schedule] ([Date], [Number of Lesson], [LessonID], [ClassID], [TeacherID], [TeachersComment]) VALUES (CAST(N'2019-02-28' AS Date), 7, 6, 6, 7, N'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.')
 GO
 SET IDENTITY_INSERT [dbo].[Teachers] ON 
 GO
@@ -606,6 +1234,8 @@ INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID
 GO
 INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (14, N'Sagiv', N'Levi', N'052-4784758', 1, 3, 17)
 GO
+INSERT [dbo].[Teachers] ([TeacherID], [Name], [Surname], [PhoneNumber], [ClassID], [CategoryID], [UserID]) VALUES (15, N'Mikky', N'Mor', N'054-8974564', 2, 4, 21)
+GO
 SET IDENTITY_INSERT [dbo].[Teachers] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
@@ -614,37 +1244,37 @@ INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (1, N'chuchu@gmail.
 GO
 INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (2, N'bubu@gmail.com', CAST(N'2019-01-03T14:36:12.540' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (4, N'charly@gmail.com', CAST(N'2019-02-24T11:20:03.783' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (4, N'charly@gmail.com', CAST(N'2019-03-04T15:08:58.030' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (5, N'bibi@gmail.com', CAST(N'2019-03-03T17:40:06.650' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (5, N'bibi@gmail.com', CAST(N'2019-03-04T11:22:17.913' AS DateTime))
 GO
 INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (6, N'lili@gmail.com', CAST(N'2019-03-03T18:46:56.040' AS DateTime))
 GO
 INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (7, N'robby@gmail.com', CAST(N'2019-01-03T16:13:31.777' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (8, N'galy@gmail.com', CAST(N'2019-03-03T17:34:22.533' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (8, N'galy@gmail.com', CAST(N'2019-03-04T15:47:45.987' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (9, N'rikky@gmail.com', CAST(N'2019-01-04T17:29:54.147' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (9, N'rikky@gmail.com', CAST(N'2019-03-03T23:23:19.383' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (10, N'rami@gmail.com', CAST(N'2019-03-03T19:06:12.413' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (10, N'rami@gmail.com', CAST(N'2019-03-04T13:59:06.880' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (11, N'shalev@gmail.com', CAST(N'2019-01-06T19:38:15.677' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (11, N'shalev@gmail.com', CAST(N'2019-03-06T10:58:23.933' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (13, N'daniel@gmail.com', CAST(N'2019-01-06T19:39:27.230' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (13, N'daniel@gmail.com', CAST(N'2019-03-06T11:02:19.690' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (14, N'ortal@gmail.com', CAST(N'2019-02-13T11:50:07.740' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (14, N'ortal@gmail.com', CAST(N'2019-03-06T11:10:09.190' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (16, N'tanya@mail.com', CAST(N'2019-03-03T15:12:42.763' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (16, N'tanya@mail.com', CAST(N'2019-03-03T23:21:49.013' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (17, N'sagi@gmail.com', CAST(N'2019-02-28T09:38:45.363' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (17, N'sagi@gmail.com', CAST(N'2019-03-06T11:14:02.913' AS DateTime))
 GO
-INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (21, N'mikky@gmail.com', CAST(N'2019-03-03T18:02:34.440' AS DateTime))
+INSERT [dbo].[Users] ([UserID], [Email], [LastLogin]) VALUES (21, N'mikky@gmail.com', CAST(N'2019-03-06T11:40:47.470' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__LogsAndP__5E55825B63B2B780]    Script Date: 3/3/2019 8:30:56 PM ******/
+/****** Object:  Index [UQ__LogsAndP__5E55825B63B2B780]    Script Date: 3/6/2019 12:01:16 PM ******/
 ALTER TABLE [dbo].[LogsAndPass] ADD  CONSTRAINT [UQ__LogsAndP__5E55825B63B2B780] UNIQUE NONCLUSTERED 
 (
 	[Login] ASC
@@ -679,11 +1309,6 @@ ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Teachers] 
 REFERENCES [dbo].[Teachers] ([TeacherID])
 GO
 ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Teachers]
-GO
-ALTER TABLE [dbo].[Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages_Users] FOREIGN KEY([UserID])
-REFERENCES [dbo].[Users] ([UserID])
-GO
-ALTER TABLE [dbo].[Messages] CHECK CONSTRAINT [FK_Messages_Users]
 GO
 ALTER TABLE [dbo].[Pupils]  WITH CHECK ADD  CONSTRAINT [FK_Pupils_Classes] FOREIGN KEY([ClassID])
 REFERENCES [dbo].[Classes] ([ClassID])
