@@ -196,9 +196,9 @@ tr:nth-child(2n) {
     height:70px;
     width:100%;
 }
-.divScheduleTableContainer{
-    position:relative;
-    top:70px;
+.divScheduleTableContainer {
+    position: relative;
+    /*top: 10px;*/
 }
 .spanResult {
     color: white;
@@ -389,6 +389,7 @@ tr:nth-child(2n) {
     border: 1px solid black;
     border-radius: 10px
 }
-.divContainerScheduleButtons{
-    width:800px;
+.divContainerScheduleButtons {
+    width: 800px;
+    padding-left:25%;
 }

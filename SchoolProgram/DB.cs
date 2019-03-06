@@ -580,9 +580,9 @@ namespace SchoolProgram
                     if (conn == null)
                         throw new Exception("Connection is null");
                     conn.Open();
-                    string sql = "SELECT PupilID, Pupils.Name, Surname, DateOfBirth, PhoneNumber,Address,UserID," +
-                        "Classes.ClassName FROM Pupils, Classes Where Pupils.TeacherID = @teacherId AND " +
-                        "Classes.TeacherID = @teacherId";
+                    string sql = "SELECT PupilID, Pupils.Name, Surname, DateOfBirth, PhoneNumber, Address, UserID, " +
+                        "Classes.ClassName FROM Pupils inner join Classes on Classes.ClassID in (select ClassID from Teachers " +
+                        "where TeacherID = @teacherId) and Pupils.ClassID in (select ClassID from Teachers where TeacherID = @teacherId)";
 
                     using (SqlCommand comm = new SqlCommand(sql, conn))
                     {
@@ -616,7 +616,7 @@ namespace SchoolProgram
                     if (conn == null)
                         throw new Exception("Connection is null");
                     conn.Open();
-                    string sql = "INSERT INTO Messages (Date, TeacherID, PupilID, UserID, Message) VALUES " +
+                    string sql = "INSERT INTO Messages (Date, TeacherID, PupilID, UserIDOfPearent, Message) VALUES " +
                         "(@date, @teacher, @pupil, @user, @mess)";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
                     {
@@ -643,14 +643,14 @@ namespace SchoolProgram
                         "Classes.ClassName, Teachers.Name , Teachers.Surname FROM (SELECT * FROM Schedule WHERE Date >= @from and Date <= @to" +
                         " and TeacherID = @teacherID) t LEFT OUTER JOIN Lessons ON Lessons.LessonID = t.LessonID " +
                         "LEFT OUTER JOIN Classes ON Classes.ClassID = t.ClassID left outer join Teachers ON " +
-                        "Teachers.TeacherID=@teacherID ORDER BY Date";
+                        "Teachers.TeacherID=@teacherID ORDER BY Date, [Number of Lesson]";
                     if (!forTeacher)
                     {
                         sql = "SELECT Date, [Number Of Lesson], TeachersComment, Lessons.LessonName, Teachers.Name," +
                             " Teachers.Surname FROM (SELECT * FROM Schedule WHERE Date>= @from and Date<= @to AND " +
                             "ClassID IN (SELECT ClassID FROM Teachers WHERE TeacherID = @teacherID)) t LEFT OUTER JOIN" +
                             " Lessons ON Lessons.LessonID = t.LessonID  LEFT OUTER JOIN Teachers ON" +
-                            " Teachers.TeacherID = t.TeacherID  ORDER BY Date";
+                            " Teachers.TeacherID = t.TeacherID  ORDER BY Date, [Number of Lesson]";
                     }
                     using (SqlCommand comm = new SqlCommand(sql, conn))
                     {

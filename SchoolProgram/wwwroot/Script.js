@@ -152,7 +152,7 @@ function menuPage(isATeacher) {
 }
 
 function attendancePageforUser() {
-    
+
     $(".btnShowAttendanceList").css({ 'position': 'relative', 'margin-top': 'auto' });
     $(".divButtonClose").css("top", "none");
     var today = getDateofTodayInFormat();
@@ -160,7 +160,7 @@ function attendancePageforUser() {
     $("#calendar").attr("value", today);
     $(".spanResult").html("");
     $(".divButtonClose").append(btnClose);
-   
+
 }
 
 
@@ -173,7 +173,7 @@ function renderClassesNameSelector() {
     $("#calendar").attr("value", today);
     $(".spanResult").html("");
     $(".divButtonClose").append(btnClose);
-        
+    if (classes.length === 0) {//if the function has already been called, the saved list of classes is used (it is static) and the HTTP request is not execute
         $.get("api/Teacher/GetClasses", function (data, status) {
             $("#btnShowAttendanceList").attr("disabled", false);
             if (status === "success") {
@@ -193,9 +193,19 @@ function renderClassesNameSelector() {
                 return;
             }
         });
-    
+    }
+    else {
+        if (classes && classes.length > 0) {
+            for (var i = 0; i < classes.length; i++) {
+                $("#selectClass").append('<option value=' + classes[i].className + '>' + classes[i].className + '</option>');
+            }
+        }
+    }
+
+
+
 }
-   
+
 
 
 //the method formats the date chosen by the client to the date format for the database
@@ -265,7 +275,7 @@ function renderLessonsListToSelection() {
 
 function renderAttendanceTable(i) {
 
-    
+
     $(".divLessonsContainer").hide();
     $(".spanResult").text("");
     lessonId = lessons[i].lessonID;
@@ -313,10 +323,10 @@ function renderAttendanceTableForUser() {
     $(".spanResult").text("");
     selectedDate = $("#calendar").val();
     $.get("api/Users/getAttendanceforUser?userID=" + localStorage["userID"] + "&date=" + selectedDate, function (data, status) {
-        if (status==="success") {
-            if (data && data.length!==0) {
+        if (status === "success") {
+            if (data && data.length !== 0) {
                 attendancePupil = data;
-                let table=$("<table></table>").addClass("attendanceOfPupil");
+                let table = $("<table></table>").addClass("attendanceOfPupil");
                 let header = $("<tr><td>Number of lesson</td><td>Lesson</td><td>Presence</td><td>Teacher</td><td>Comment</td></tr>");
                 table.append(header);
                 let header2 = $("<tr><td></td><td></td><td>" + selectedDate + "</td><td></td><td></td></tr>");
@@ -504,7 +514,7 @@ function showForm(i, formName) {
     makeForm("Enter your message:</br>", i, formName, function (value) {
         var message = {
             date: new Date(),
-            teacher: {teacherID: Number(localStorage['teacherID'])},
+            teacher: { teacherID: Number(localStorage['teacherID']) },
             pupilID: pupilsFromMyClass[i].pupilID,
             userID: pupilsFromMyClass[i].userID,
             messageText: value
@@ -587,7 +597,7 @@ function makeForm(text, i, formName, callback) {
             complete(null);
         else {
             window.open('', '_self', ''); window.close();
-        }  
+        }
     };
     container.style.display = 'block';
     if (formName === 'messageForm')
@@ -618,37 +628,37 @@ function renderFormToGetSchedule(formName, forTeacher) {
         if (!JSON.parse(localStorage['isATeacher'])) {
             query = "api/Users/getSchedule?from=" + value[0] + "&to=" + value[1] + "&userID=" + Number(localStorage['userID']);
         }
-        
-        $.get(query, function (data, status) {
-                if (status === "success") {
-                    if (!data) {
-                        span.html("<h1>Response from server is not correct</h1>");
-                        return;
-                    }
-                    if (data.length === 0) {
-                        let text = "You don't have a lessons by Schedule in this period of dates";
-                        if (!forTeacher || !JSON.parse(localStorage['isATeacher']))
-                            text = "Where are no lessons in this period of dates";
-                        span.html("<h1 align='center'>" + text + "</h1>");
-                        backButton.css('margin-left', '50%');
-                        span.append(backButton);
-                        return;
-                    }
-                    schedule = data;
-                    $(".divContainerScheduleButtons").hide();
-                    renderSchedule(forTeacher, JSON.parse(localStorage['isATeacher']));
 
-                }
-                else {
-                    span.html("<h1>Unsuccess</h1>");
+        $.get(query, function (data, status) {
+            if (status === "success") {
+                if (!data) {
+                    span.html("<h1>Response from server is not correct</h1>");
                     return;
                 }
+                if (data.length === 0) {
+                    let text = "You don't have a lessons by Schedule in this period of dates";
+                    if (!forTeacher || !JSON.parse(localStorage['isATeacher']))
+                        text = "Where are no lessons in this period of dates";
+                    span.html("<h1 align='center'>" + text + "</h1>");
+                    backButton.css('margin-left', '50%');
+                    span.append(backButton);
+                    return;
+                }
+                schedule = data;
+                $(".divContainerScheduleButtons").hide();
+                renderSchedule(forTeacher, JSON.parse(localStorage['isATeacher']));
 
-            });
+            }
+            else {
+                span.html("<h1>Unsuccess</h1>");
+                return;
+            }
+
+        });
     });
 }
 
-function renderSchedule(forTeacher=false) {
+function renderSchedule(forTeacher = false) {
 
     var table = $("<table></table>").addClass('scheduleTable');
     var header = $("<tr></tr>");
@@ -682,7 +692,7 @@ function renderSchedule(forTeacher=false) {
         var cells = "</td><td>" + schedule[i].numberOfLesson + "</td>";
         if (forTeacher)
             cells += "<td>" + schedule[i].class.className + "</td>";
-        else 
+        else
             cells += "<td>" + schedule[i].teacher.name + " " + schedule[i].teacher.surname + "</td>";
         cells += "<td>" + schedule[i].lesson.lessonName + "</td><td>" + schedule[i].teachersComment + "</td></tr>";
         tr.append(cells);
@@ -701,13 +711,13 @@ function renderButtons() {
 function getMessagesforUser() {
     $.get("api/Users/getMessages?userID=" + localStorage['userID'], function (data, status) {
         if (status === "success") {
-            
+
             if (data && data.length !== 0) {
                 let messages = data;
                 let table = $("<table></table>").addClass('attendanceOfPupil');
                 let header = $("<tr><td></td><td>Date</td><td>From teacher</td><td>Message</td></tr>");
                 table.append(header);
-                for (var i = messages.length-1; i >= 0; i--) {
+                for (var i = messages.length - 1; i >= 0; i--) {
                     let date = new Date(messages[i].date);
                     let utc = date.toUTCString();
 
@@ -718,10 +728,10 @@ function getMessagesforUser() {
 
                 $(".divTableContainer").append(table);
             }
-            else 
+            else
                 $(".spanResult").html("<h2>You don't have a messages</h2>");
         }
-        else 
+        else
             $(".spanResult").html("<h2>Something wrong in server side</h2>");
     });
     $(".divButtons").append(btnClose);
