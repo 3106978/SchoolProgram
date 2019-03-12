@@ -10,19 +10,32 @@ using System.Diagnostics;
 namespace SchoolProgram
 {
     public class DB
-    {
-        public static string CONN_STRING;
+    {/// <summary>
+    /// connection string to data base
+    /// </summary>
+        internal static string CONN_STRING;
 
         public static UserLogAndPas Login(string login, string password)
         {
             using (SqlConnection conn = new SqlConnection(CONN_STRING))
             {
+                conn.CheckDBConnection();
                 conn.Open();
-
                 return ValidateUser(login, password, conn);
             }
         }
-        public static UserLogAndPas ValidateUser(string login, string password, SqlConnection conn)
+
+        /// <summary>
+        /// Validation of user. Check login and password in Data Base and if user is new user 
+        /// the method return instance of model UserLogAndPass with primary data about user 
+        /// (who is he? Teacher, User, Admin, New User). 
+        /// If User is not new the method send to the database about the time of the last visit of user 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <param name="conn"> opened SqlConnection</param>
+        /// <returns></returns>
+        private static UserLogAndPas ValidateUser(string login, string password, SqlConnection conn)
         {
             string sql = "SELECT UserID, IsNewUser, IsAdmin, IsATeacher FROM LogsAndPass WHERE " +
                 "Login=@Login AND Password=@Password";
@@ -34,9 +47,8 @@ namespace SchoolProgram
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (!reader.HasRows)
-                    {
                         return null;
-                    }
+                    
                     reader.Read();
                     user = new UserLogAndPas
                     {
@@ -66,44 +78,16 @@ namespace SchoolProgram
 
         }
         public static class Users
-        {
-            internal static List<User> GetUsers()
-            {
-                List<User> users = new List<User>();
-                using (SqlConnection conn = new SqlConnection(CONN_STRING))
-                {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
-                    conn.Open();
-                    string sql = "SELECT UserID, Email, LastLogin FROM Users";
-                    using (SqlCommand command = new SqlCommand(sql, conn))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                User user = new User
-                                {
-                                    UserID = reader.GetInt32(0),
-                                    EMail = reader["EMail"].ToString(),
-                                    LastLogin = reader.GetDateTime(reader.GetOrdinal("LastLogin"))
-                                };
-                                users.Add(user);
-                            }
-                        }
-                    }
-
-                }
-                return users;
-            }
-
+        {/// <summary>
+        /// Insert new User to table Users with new password
+        /// </summary>
+        /// <param name="user">object User</param>
+        /// <returns>true - if user was inserted successfully</returns>
             internal static bool InsertUser(User user)
             {
-
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SET IDENTITY_INSERT Users ON INSERT INTO Users(UserID, Email, LastLogin)" +
                         " VALUES (@UserID, @Email, @LastLogin) SET IDENTITY_INSERT Users OFF;" +
@@ -120,12 +104,18 @@ namespace SchoolProgram
                 }
 
             }
+
+            /// <summary>
+            /// Get Attendance of pupil by date and pearent's user id
+            /// </summary>
+            /// <param name="userID">pearent's user id</param>
+            /// <param name="date">selected date </param>
+            /// <returns>list Attendance with data about pupil's attendance in corrent date </returns>
             internal static List<Attendance> GetPupilAttendanceForUser(int userID, DateTime date)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT Pupils.PupilID,  Presence, Teachers.Name, Teachers.Surname, Comment, " +
                         "NumberOfLesson, Lessons.LessonName FROM Pupils INNER JOIN(SELECT PupilID, Presence, TeacherID," +
@@ -165,12 +155,16 @@ namespace SchoolProgram
                 }
             }
 
+            /// <summary>
+            /// Get List of Messages from tachers to read
+            /// </summary>
+            /// <param name="userID">id of user (pearent of pupil)</param>
+            /// <returns>List of Messages</returns>
             internal static List<Message> GetMessages(int userID)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT Messages.Date, Teachers.Name, Teachers.Surname, Messages.Message " +
                         "FROM Messages INNER JOIN Teachers ON Messages.UserID = @userID AND Teachers.TeacherID IN " +
@@ -204,12 +198,18 @@ namespace SchoolProgram
 
             }
 
+            /// <summary>
+            /// Get Schedule from db by date and by user id with teacher's comment to lesson
+            /// </summary>
+            /// <param name="userID">id of user (pupil's pearent)</param>
+            /// <param name="from">from date</param>
+            /// <param name="to">to date</param>
+            /// <returns>List Schedule</returns>
             internal static  List<Schedule> GetSchedule(int userID, DateTime from, DateTime to)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT Date, [Number Of Lesson], TeachersComment, Lessons.LessonName," +
                         " Teachers.Name, Teachers.Surname, Teachers.TeacherID FROM(SELECT * FROM Schedule WHERE Date >= @from AND Date <= @to" +
@@ -249,13 +249,16 @@ namespace SchoolProgram
         }
 
         public static class Teachers
-        {
-            public static int GetTeacherID(int userID)
+        {/// <summary>
+        /// Get Teacher ID from DB by User ID
+        /// </summary>
+        /// <param name="userID">user id</param>
+        /// <returns>int teacher id</returns>
+            internal static int GetTeacherID(int userID)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT TeacherID FROM Teachers WHERE UserID=@userId";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
@@ -271,13 +274,17 @@ namespace SchoolProgram
                 }
 
             }
-            public static List<Class> GetClasses()
+           
+            /// <summary>
+            /// Get all classes from dataBase
+            /// </summary>
+            /// <returns>List of all classes</returns>
+            internal static List<Class> GetClasses()
             {
                 List<Class> classes = new List<Class>();
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT * FROM Classes";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
@@ -298,37 +305,17 @@ namespace SchoolProgram
                 }
                 return classes;
             }
-            public static List<Pupil> GetPupils(int classId, DateTime selectedDate)
-            {
-                using (SqlConnection conn = new SqlConnection(CONN_STRING))
-                {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
-                    conn.Open();
-                    List<Pupil> pupils = new List<Pupil>();
-                    string sql = "SELECT PupilID, Name, Surname, UserID FROM Pupils WHERE ClassID=@classId";
-                    using (SqlCommand comm = new SqlCommand(sql, conn))
-                    {
-                        comm.Add("@classId", classId);
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Pupil p = new Pupil
-                                {
-                                    PupilID = reader.GetInt32(0),
-                                    Name = reader.GetString(1),
-                                    Surname = reader.GetString(2),
-                                    UserID = reader.GetInt32(3)
-                                };
-                                pupils.Add(p);
-                            }
-                            return pupils;
-                        }
-                    }
-                }
-            }
-            public static bool AttendanceHasData(DateTime date, int classId, int lessonId, int numberOfLesson, SqlConnection conn)
+           
+            /// <summary>
+            /// Check the db table "Attendance" if data about pupils is already exists
+            /// </summary>
+            /// <param name="date">selected date </param>
+            /// <param name="classId">id of selected class</param>
+            /// <param name="lessonId">id of selected lesson</param>
+            /// <param name="numberOfLesson">number of selected lesson in schedule</param>
+            /// <param name="conn">sql connection object</param>
+            /// <returns>true- if data of pupils is already exists in table attendance</returns>
+            private static bool AttendanceHasData(DateTime date, int classId, int lessonId, int numberOfLesson, SqlConnection conn)
             {
                 string sql = "SELECT PupilID FROM Attendance WHERE Date=@date AND ClassID=@class" +
                     " AND LessonID=@lesson AND NumberOfLesson = @numOfLesson";
@@ -347,10 +334,15 @@ namespace SchoolProgram
                 return false;
             }
 
-
-            public static List<Lesson> GetLessons(DateTime date, int classId)
+            /// <summary>
+            /// Get List of lessons from Schedule table in data base by date and class id
+            /// </summary>
+            /// <param name="date">checked date of lessons</param>
+            /// <param name="classId">id of checked class</param>
+            /// <returns>list of lessons from schedule by date and class id with data about each lesson
+            /// (name of lesson, his number in schedule and id)</returns>
+            internal static List<Lesson> GetLessons(DateTime date, int classId)
             {
-
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
                     if (conn == null)
@@ -383,12 +375,24 @@ namespace SchoolProgram
                     }
                 }
             }
-            public static AttendanceWithTeacherComment GetPupilsListFromAttendance(DateTime date, int classId, int lessonId, int numberOfLesson)
+
+            /// <summary>
+            /// Get list of pupils from table attendance in the db . 
+            /// First there is a check whether there is already data on attendance in the table. If data is exists - 
+            /// we jast get this data from table, get teacher's comment to lesson and send this to client side in object AttendanceWithTeacherComment;
+            /// If data about attendance is not exists in db we firstly get pupils  list from db by selected class id and create object
+            /// AttendanceWithTeacherComment with comment of teacher=null and presence of pupil=null. 
+            /// </summary>
+            /// <param name="date">selected date from client</param>
+            /// <param name="classId">id of selected class</param>
+            /// <param name="lessonId">id of selected lesson</param>
+            /// <param name="numberOfLesson">number of selected lesson in schedule</param>
+            /// <returns>AttendanceWithTeacherComment (List of Attendance objects and TeacherComment)</returns>
+            internal static AttendanceWithTeacherComment GetPupilsListFromAttendance(DateTime date, int classId, int lessonId, int numberOfLesson)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     bool dbHaveTheData = AttendanceHasData(date, classId, lessonId, numberOfLesson, conn);
                     List<Pupil> pupilsListWithoutAttendance = new List<Pupil>();
@@ -480,7 +484,14 @@ namespace SchoolProgram
                 }
 
             }
-            public static List<Pupil> GetPupilsToAttendance(int classID, SqlConnection conn)
+           
+            /// <summary>
+            /// get list of pupils from db by  class id
+            /// </summary>
+            /// <param name="classID">selected class id</param>
+            /// <param name="conn"> sql connection</param>
+            /// <returns> list of Pupils</returns>
+            private static List<Pupil> GetPupilsToAttendance(int classID, SqlConnection conn)
             {
                 string sql = "SELECT PupilID, Name, Surname FROM Pupils WHERE PupilID IN " +
                     "(SELECT PupilID FROM Pupils WHERE ClassID = @classID)";
@@ -505,12 +516,18 @@ namespace SchoolProgram
                     }
                 }
             }
-            public static bool InsertDataToAttendanceTable(AttendanceWithTeacherComment list)
+           
+            /// <summary>
+            /// Insert to db table "Attendance" list of pupils with presence and comments about their work
+            /// and insert to table "Schedule" comment to lesson from teacher
+            /// </summary>
+            /// <param name="list"> list of pupils with attendance and comments + teacher's comment to lesson (AttendanceWithTeacherComment)</param>
+            /// <returns>true- if data inserted successfully</returns>
+            internal static bool InsertDataToAttendanceTable(AttendanceWithTeacherComment list)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "INSERT INTO Attendance VALUES (@date, @lessonId, @pupilId,  @presence, @teacherId, @classId, " +
                         "@numberOfLesson, @comment)";
@@ -548,12 +565,17 @@ namespace SchoolProgram
                     }
                 }
             }
-            public static Teacher GetNameOfTeacherById(int id)
+           
+            /// <summary>
+            /// Get name and surname of teacher who maked attendance to show this in client side
+            /// </summary>
+            /// <param name="id">id of teacher who maked attendance</param>
+            /// <returns> object Teacher with name and surname</returns>
+            internal static Teacher GetNameOfTeacherById(int id)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT Name, Surname FROM Teachers WHERE TeacherID=@id";
                     using (SqlCommand comm = new SqlCommand(sql, conn))
@@ -572,13 +594,17 @@ namespace SchoolProgram
                     }
                 }
             }
-
-            public static List<Pupil> GetPupilsFromMyClass(int teacherId)
+           
+            /// <summary>
+            /// Get list of pupils from db from teacher's class
+            /// </summary>
+            /// <param name="teacherId">teacher id</param>
+            /// <returns>list of pupils</returns>
+            internal static List<Pupil> GetPupilsFromMyClass(int teacherId)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "SELECT PupilID, Pupils.Name, Surname, DateOfBirth, PhoneNumber, Address, UserID, " +
                         "Classes.ClassName FROM Pupils inner join Classes on Classes.ClassID in (select ClassID from Teachers " +
@@ -608,13 +634,17 @@ namespace SchoolProgram
                     }
                 }
             }
-
-            public static bool SendMessageToServer(Message m)
+           
+            /// <summary>
+            /// Send message from teacher to pupil's pearent and save wthis in db
+            /// </summary>
+            /// <param name="m">Message from teacher</param>
+            /// <returns>true- if message sent successfully</returns>
+            internal static bool SendMessageToServer(Message m)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
                 {
-                    if (conn == null)
-                        throw new Exception("Connection is null");
+                    conn.CheckDBConnection();
                     conn.Open();
                     string sql = "INSERT INTO Messages (Date, TeacherID, PupilID, UserIDOfPearent, Message) VALUES " +
                         "(@date, @teacher, @pupil, @user, @mess)";
@@ -631,7 +661,16 @@ namespace SchoolProgram
 
                 }
             }
-
+           
+            /// <summary>
+            /// Get Teacher's Work Schedule by dates from db if variable forTeacher==true,
+            /// or get Classe's lessons schedule bu dates from db if variable forTeacher==false
+            /// </summary>
+            /// <param name="from">From date </param>
+            /// <param name="to"> to date</param>
+            /// <param name="teacherID"> id of teacher who want get schedule</param>
+            /// <param name="forTeacher">boolean variable</param>
+            /// <returns>list Schedule</returns>
             internal static List<Schedule> GetSchedule(DateTime from, DateTime to, int teacherID, bool forTeacher)
             {
                 using (SqlConnection conn = new SqlConnection(CONN_STRING))
@@ -704,23 +743,54 @@ namespace SchoolProgram
                 }
             }
         }
-
-
-
     }
 
     static class SqlCommandExtensions
     {
+        /// <summary>
+        /// Add values in sql parameters collection
+        /// </summary>
+        /// <param name="cmd">Sql command</param>
+        /// <param name="param">name of parameter</param>
+        /// <param name="value">value of parameter</param>
         public static void Add(this SqlCommand cmd, string param, object value)
         {
             cmd.Parameters.AddWithValue(param, value == null ? DBNull.Value : value);
         }
 
+        /// <summary>
+        /// Check if int value from client side is correct
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="text"></param>
+        public static void CheckValue(this int value, string text)
+        {
+            if (value <= 0)
+                throw new ArgumentNullException("The "+text+" is not valid", nameof(value));
+        }
+
+        /// <summary>
+        /// Return empty string if varchar value from data base is null
+        /// </summary>
+        /// <param name="rd"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public static string CheckEmptyStringFromDB(this SqlDataReader rd, int num)
         {
             if (!rd.IsDBNull(num))
                 return rd.GetString(num);
             return string.Empty;
+        }
+
+        /// <summary>
+        /// check if DB connection object is not null
+        /// </summary>
+        /// <param name="conn"></param>
+        public static void CheckDBConnection(this SqlConnection conn)
+        {
+            if (conn==null)
+                throw new Exception("Connection is null");
+
         }
     }
 }

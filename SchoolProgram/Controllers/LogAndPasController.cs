@@ -11,12 +11,20 @@ namespace SchoolProgram.Controllers
     [Produces("application/json")]
     [Route("api/LogAndPas")]
     public class LogAndPasController : Controller
-    {
+    {/// <summary>
+    /// Validation of user.
+    /// Check login and password with httpGet query
+    /// 
+    /// </summary>
+    /// <param name="login"></param>
+    /// <param name="password"></param>
+    /// <returns> if login and password are valides - return instatnce of model UserLogAndPas 
+    /// with primary data about user (who is he (teacher, new user, admin))</returns>
         [HttpGet]
         public UserLogAndPas Login([FromQuery]string login, [FromQuery]string password)
         {
-            if (login.Length == 0 || password.Length == 0)
-                throw new Exception("The login or password length is 0");
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+                throw new ArgumentNullException("The login or password is null or empty");
             return DB.Login(login, password);
         }
 

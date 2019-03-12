@@ -11,13 +11,11 @@ namespace SchoolProgram.Controllers
     [Produces("application/json")]
     [Route("api/Users")]
     public class UsersController : Controller
-    {
-        [HttpGet]
-        public List<User> Get()
-        {
-            return DB.Users.GetUsers();
-        }
-
+    {/// <summary>
+    /// Insert new User with new password to db
+    /// </summary>
+    /// <param name="us">object User</param>
+    /// <returns>true - if user was inserted to db successfully</returns>
         [HttpPost]
         public bool InsertUser([FromBody]User us)
         {
@@ -26,29 +24,47 @@ namespace SchoolProgram.Controllers
             return false;
             
         }
-
+        /// <summary>
+        /// Get attendance of pupil from db by date and user id of his pearent
+        /// </summary>
+        /// <param name="userID">user id - pupil's pearent</param>
+        /// <param name="date">selected date</param>
+        /// <returns></returns>
         [HttpGet("getAttendanceforUser")]
         public List<Attendance> GetAttendanceListForUser(int userID, DateTime date)
         {
-            if (userID <= 0 || date == null)
+            userID.CheckValue("userID");
+            if (date == null)
                 throw new Exception("The input data from client side is not correct");
 
             return DB.Users.GetPupilAttendanceForUser(userID, date);
         }
 
+        /// <summary>
+        /// Get List of Messages from Teachers
+        /// </summary>
+        /// <param name="userID">user id</param>
+        /// <returns>List of Messages</returns>
         [HttpGet("getMessages")]
         public List<Message> GetMessages (int userID)
         {
-            if (userID <= 0)
-                throw new Exception("The input data from client side is not correct");
+            userID.CheckValue("userID");
             return DB.Users.GetMessages(userID);
         }
-        [HttpGet("getSchedule")]
 
+        /// <summary>
+        /// Get  Schedule of lessons with Teacher's comment by dates  
+        /// </summary>
+        /// <param name="from">from date</param>
+        /// <param name="to">to date</param>
+        /// <param name="userID">id of user (pupil's pearent)</param>
+        /// <returns>List Schedule</returns>
+        [HttpGet("getSchedule")]
         public List<Schedule> GetSchedule(DateTime from, DateTime to, int userID)
         {
-            if (from == default(DateTime) || to == default(DateTime) || userID <= 0)
-                throw new Exception("The input data from client is not correct");
+            userID.CheckValue("userID");
+            if (from == null || to == null )
+                throw new Exception("The input date from client is not correct");
             return DB.Users.GetSchedule(userID, from, to );
         }
 
