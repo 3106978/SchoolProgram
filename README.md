@@ -1,6 +1,6 @@
 # SchoolProgram
 This is the final project of course .NET
-This program is WEB API Application developed on the base of ASP.NET.CORE EntityFramwork 4.0 platform , with a database SQL SERVER EXPRESS, designed for primary school teachers and parents of pupils. To track attendance, teacher’s work schedule, and student’s class schedule, get contact details of pupil’s parents, and send messages to parents within the program.
+This program is WEB API Application developed on the base of ASP.NET.CORE platform , with a database SQL SERVER EXPRESS, designed for primary school teachers and parents of pupils. To track attendance, teacher’s work schedule, and student’s class schedule, get contact details of pupil’s parents, and send messages to parents within the program.
 
 All users is already entered into the database by the administrator. The first entry into the program is performed with the initial login and password received from the administrator, then the user  must sign up and enter a new password.
 
